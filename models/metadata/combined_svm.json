@@ -1,0 +1,37 @@
+{
+  "model_name": "combined_svm",
+  "architecture": "combined_svm",
+  "framework": "scikit-learn",
+  "feature_key": "X",
+  "input_dimensions": 6103,
+  "training_samples": 365,
+  "training_morphed": 224,
+  "training_genuine": 141,
+  "training_duration_seconds": 1.713,
+  "training_manifest_sha256": "c819852bfc23f21f486c94de2210e653dc5e6c15f37e2e701d0faa6073b89d58",
+  "artifact_path": "models/trained/combined_svm.joblib",
+  "artifact_sha256": "49ad29ebcde3af3717af4b9344205f85c36ba0710e8a2bd3b57a77424dacf234",
+  "training_date": "2026-11-18T15:46:37Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "metrics": {
+    "evaluation_split": "test",
+    "eval_samples": 81,
+    "eval_morphed": 36,
+    "eval_genuine": 45,
+    "accuracy": 0.5802,
+    "precision": 1.0,
+    "recall": 0.0556,
+    "f1_score": 0.1053,
+    "apcer": 0.9444,
+    "bpcer": 0.0,
+    "acer": 0.4722,
+    "confusion_matrix": {
+      "tp": 2,
+      "fp": 0,
+      "tn": 45,
+      "fn": 34
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "records": 46792,
+  "official_annotation_files": [
+    "threshold=0.4131552472489117_cosine_images.txt",
+    "threshold=0.4931709463108935_cosine_images.txt",
+    "threshold=0.5970134557846706_cosine_images.txt"
+  ],
+  "non_image_annotation_files": [
+    "ONOT\\threshold=0.4131552472489117_cosine_images.txt",
+    "ONOT\\threshold=0.4931709463108935_cosine_images.txt",
+    "ONOT\\threshold=0.5970134557846706_cosine_images.txt"
+  ],
+  "status_counts": {
+    "pending_review": 46792
+  },
+  "proposed_interpretations": {
+    "MONOT|Gate_10|gate_live_acquisition_stratum": 2550,
+    "MONOT|Gate_25|gate_live_acquisition_stratum": 6350,
+    "MONOT|Morphed|morphed_attack_candidate": 15240,
+    "ONOT|digital|acquisition_variant_candidate": 11326,
+    "ONOT|print-scan|acquisition_variant_candidate": 11326
+  },
+  "records_with_subject_id": 46792,
+  "records_with_morph_pair_id": 15240,
+  "records_with_threshold_membership": 706,
+  "approved_for_training": 0,
+  "review_required": 46792,
+  "notes": [
+    "No raw CSV/Excel/JSON/XML image-level ground-truth manifest was found.",
+    "Interpretations are provenance records only and are not approved labels.",
+    "MONOT Morphed filenames expose source-pair and algorithm parameters; MONOT gate filenames expose source subject IDs.",
+    "ONOT subject folders expose subject IDs; threshold files describe subset membership."
+  ]
+}

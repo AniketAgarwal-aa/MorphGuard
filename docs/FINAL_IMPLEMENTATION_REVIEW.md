@@ -21,3 +21,5 @@ No reviewed label manifest exists. ONOT threshold files are subset annotations, 
 Human review must populate `data/manifests/label_manifest.csv`, validate it, and approve an experiment protocol. After that, feature extraction/training/evaluation can run using the documented commands. Deployment still requires a selected trained artifact and a successful Docker build in an environment with Docker Desktop running.
 
 Final deployment validation: 8 pytest tests passed; `pip check`, compilation, readiness, invalid-image, blank-image, metadata loading, and Streamlit startup checks passed. The user reports Docker build/container startup success; a repeat in this session was blocked by the unavailable/access-denied `desktop-linux` engine, so no independent container-functional claim is made here.
+
+The training-release safeguards now include approved-only grouped split generation, manifest SHA-256 recording, split summary/leakage reports, artifact metadata validation, artifact hashing, and label-coverage reporting. No reviewed manifest is present, so no split or supervised training run was launched.

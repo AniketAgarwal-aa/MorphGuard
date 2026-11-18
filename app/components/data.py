@@ -45,3 +45,22 @@ def load_metrics():
         try: rows.append(json.loads(path.read_text(encoding='utf-8'))|{'model':path.stem})
         except (OSError,ValueError): pass
     return pd.DataFrame(rows)
+
+@st.cache_data(show_spinner=False)
+def load_annotation_summary():
+    path = project_root() / 'data' / 'metadata' / 'annotation_audit_summary.json'
+    if not path.exists():
+        return {'state': 'missing', 'message': 'Annotation audit summary is not available.'}
+    try:
+        payload = json.loads(path.read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return {'state': 'invalid', 'message': 'Annotation audit summary is invalid.'}
+    payload['state'] = 'available'
+    return payload
+
+@st.cache_data(show_spinner=False)
+def load_processing_summary():
+    path = project_root() / 'data' / 'cache' / 'image_features' / 'processing_summary.json'
+    if not path.exists(): return {'state':'missing'}
+    try: return {'state':'available', **json.loads(path.read_text(encoding='utf-8'))}
+    except (OSError, ValueError): return {'state':'invalid'}

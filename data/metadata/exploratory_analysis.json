@@ -1,0 +1,43 @@
+{
+  "records": 46792,
+  "dimensions": {
+    "count": 46792,
+    "min": 356.0,
+    "median": 512.0,
+    "max": 1511.0
+  },
+  "heights": {
+    "count": 46792,
+    "min": 475.0,
+    "median": 512.0,
+    "max": 1943.0
+  },
+  "file_sizes": {
+    "count": 0,
+    "min": null,
+    "median": null,
+    "max": null
+  },
+  "by_dataset": {
+    "MONOT": 24140,
+    "ONOT": 22652
+  },
+  "by_category": {
+    "MONOT/Gate_10": 2550,
+    "MONOT/Gate_25": 6350,
+    "MONOT/Morphed": 15240,
+    "ONOT/digital": 11326,
+    "ONOT/print-scan": 11326
+  },
+  "subject_group_sizes": {
+    "groups": 349,
+    "max": 351,
+    "median": 128
+  },
+  "candidate_pair_group_sizes": {
+    "groups": 1270,
+    "max": 12,
+    "median": 12.0
+  },
+  "interpretation": "Descriptive metadata only; no cluster or anomaly output is a morph/genuine label."
+}

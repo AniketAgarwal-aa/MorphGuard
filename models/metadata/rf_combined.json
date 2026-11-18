@@ -1,0 +1,37 @@
+{
+  "model_name": "rf_combined",
+  "architecture": "rf_combined",
+  "framework": "scikit-learn",
+  "feature_key": "X",
+  "input_dimensions": 6103,
+  "training_samples": 365,
+  "training_morphed": 224,
+  "training_genuine": 141,
+  "training_duration_seconds": 2.299,
+  "training_manifest_sha256": "c819852bfc23f21f486c94de2210e653dc5e6c15f37e2e701d0faa6073b89d58",
+  "artifact_path": "models/trained/rf_combined.joblib",
+  "artifact_sha256": "a9b4cccd3d3663d9d8ba49775c8ca3cd1a011e30f30077acba618099ac952ae5",
+  "training_date": "2026-11-18T15:46:45Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "metrics": {
+    "evaluation_split": "test",
+    "eval_samples": 81,
+    "eval_morphed": 36,
+    "eval_genuine": 45,
+    "accuracy": 0.8395,
+    "precision": 1.0,
+    "recall": 0.6389,
+    "f1_score": 0.7797,
+    "apcer": 0.3611,
+    "bpcer": 0.0,
+    "acer": 0.1806,
+    "confusion_matrix": {
+      "tp": 23,
+      "fp": 0,
+      "tn": 45,
+      "fn": 13
+    }
+  }
+}

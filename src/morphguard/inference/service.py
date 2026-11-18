@@ -18,6 +18,34 @@ def load_joblib_model(path: Path, feature_key="combined"):
     if not path.exists(): raise FileNotFoundError(f"Model artifact not found: {path}")
     return FeatureModelAdapter(joblib.load(path),feature_key)
 
+class PyTorchModelAdapter:
+    def __init__(self, model):
+        self.model = model
+        self.model.eval()
+
+    def predict_score(self, rgb):
+        import torch
+        arr = np.asarray(rgb, dtype=np.float32) / 255.0
+        tensor = torch.from_numpy(arr.transpose(2, 0, 1)).float()
+        mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
+        std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
+        tensor = (tensor - mean) / std
+        tensor = tensor.unsqueeze(0)
+        with torch.no_grad():
+            out = self.model(tensor)
+            prob = float(torch.softmax(out, dim=1)[0, 1].item())
+        return prob
+
+def load_pytorch_model(path: Path, architecture="custom_cnn"):
+    import torch
+    from ..classification.models import create_model
+    if not path.exists(): raise FileNotFoundError(f"Model artifact not found: {path}")
+    model = create_model(architecture)
+    checkpoint = torch.load(path, map_location="cpu", weights_only=False)
+    state = checkpoint.get("model", checkpoint) if isinstance(checkpoint, dict) else checkpoint
+    model.load_state_dict(state)
+    return PyTorchModelAdapter(model)
+
 class InferenceService:
     def __init__(self, model=None, preprocessor=None, uncertainty=(.40,.60)):
         self.model=model; self.preprocessor=preprocessor or FacePreprocessor(); self.uncertainty=uncertainty

@@ -1,0 +1,39 @@
+{
+  "model_name": "custom_cnn",
+  "architecture": "custom_cnn",
+  "framework": "PyTorch",
+  "feature_key": "raw_face_crop_224x224",
+  "input_dimensions": [
+    3,
+    224,
+    224
+  ],
+  "training_samples": 365,
+  "training_duration_seconds": 60.582,
+  "training_manifest_sha256": "c819852bfc23f21f486c94de2210e653dc5e6c15f37e2e701d0faa6073b89d58",
+  "artifact_path": "models/checkpoints/custom_cnn.pt",
+  "artifact_sha256": "55595a4963d5fa821493d56bd6d672d6daece87ef1d26e530209eb41557cafdd",
+  "training_date": "2026-11-18T15:51:21Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "metrics": {
+    "evaluation_split": "test",
+    "eval_samples": 81,
+    "eval_morphed": 36,
+    "eval_genuine": 45,
+    "accuracy": 0.5679,
+    "precision": 0.6,
+    "recall": 0.0833,
+    "f1_score": 0.1463,
+    "apcer": 0.9167,
+    "bpcer": 0.0444,
+    "acer": 0.4806,
+    "confusion_matrix": {
+      "tp": 3,
+      "fp": 2,
+      "tn": 43,
+      "fn": 33
+    }
+  }
+}

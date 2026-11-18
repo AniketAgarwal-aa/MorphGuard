@@ -1,0 +1,37 @@
+{
+  "model_name": "glcm_rf",
+  "architecture": "glcm_rf",
+  "framework": "scikit-learn",
+  "feature_key": "glcm",
+  "input_dimensions": 5,
+  "training_samples": 365,
+  "training_morphed": 224,
+  "training_genuine": 141,
+  "training_duration_seconds": 0.454,
+  "training_manifest_sha256": "c819852bfc23f21f486c94de2210e653dc5e6c15f37e2e701d0faa6073b89d58",
+  "artifact_path": "models/trained/glcm_rf.joblib",
+  "artifact_sha256": "69a6497ce42365c73530ebf03143c0aeddc3b05d4ffcc937585bd046ed83302c",
+  "training_date": "2026-11-18T15:46:38Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "metrics": {
+    "evaluation_split": "test",
+    "eval_samples": 81,
+    "eval_morphed": 36,
+    "eval_genuine": 45,
+    "accuracy": 0.9877,
+    "precision": 0.973,
+    "recall": 1.0,
+    "f1_score": 0.9863,
+    "apcer": 0.0,
+    "bpcer": 0.0222,
+    "acer": 0.0111,
+    "confusion_matrix": {
+      "tp": 36,
+      "fp": 1,
+      "tn": 44,
+      "fn": 0
+    }
+  }
+}

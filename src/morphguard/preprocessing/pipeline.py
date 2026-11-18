@@ -18,9 +18,14 @@ class FacePreprocessor:
         cascade=cv2.data.haarcascades+"haarcascade_frontalface_default.xml"
         self.detector=cv2.CascadeClassifier(cascade)
     def load(self, source):
-        if isinstance(source, (str, bytes)):
-            img=cv2.imread(str(source), cv2.IMREAD_COLOR)
-        else: img=cv2.imdecode(np.frombuffer(source.read(),np.uint8),cv2.IMREAD_COLOR)
+        if isinstance(source, (bytes, bytearray)):
+            img = cv2.imdecode(np.frombuffer(source, np.uint8), cv2.IMREAD_COLOR)
+        elif isinstance(source, str) or hasattr(source, '__fspath__'):
+            img = cv2.imread(str(source), cv2.IMREAD_COLOR)
+        elif hasattr(source, 'read'):
+            img = cv2.imdecode(np.frombuffer(source.read(), np.uint8), cv2.IMREAD_COLOR)
+        else:
+            raise ValueError("Unsupported image source type")
         if img is None or img.size == 0: raise ValueError("Invalid or unsupported image")
         return img
     def detect(self, bgr):

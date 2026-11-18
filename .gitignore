@@ -4,6 +4,11 @@ data/processed/
 data/cache/
 data/manifests/*.sqlite
 data/manifests/label_manifest.csv
+data/manifests/annotation_inventory.csv*
+data/manifests/reviewed_label_manifest.csv
+data/manifests/targeted_review_batch.*
+data/review_pilot/
+data/test_exports/
 models/checkpoints/
 models/trained/
 *.pt
@@ -16,3 +21,6 @@ venv/
 .pytest_cache/
 results/plots/
 *.log
+*.bak
+*.tmp
+.DS_Store

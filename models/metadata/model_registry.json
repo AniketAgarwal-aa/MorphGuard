@@ -1,0 +1,268 @@
+{
+  "registry_version": "1.0.0",
+  "last_updated": "2026-11-18T19:50:00Z",
+  "models": [
+    {
+      "model_name": "combined_svm",
+      "architecture": "combined_svm",
+      "framework": "scikit-learn",
+      "feature_key": "X",
+      "input_dimensions": 6103,
+      "training_samples": 365,
+      "training_morphed": 224,
+      "training_genuine": 141,
+      "training_duration_seconds": 1.713,
+      "training_manifest_sha256": "c819852bfc23f21f486c94de2210e653dc5e6c15f37e2e701d0faa6073b89d58",
+      "artifact_path": "models/trained/combined_svm.joblib",
+      "artifact_sha256": "49ad29ebcde3af3717af4b9344205f85c36ba0710e8a2bd3b57a77424dacf234",
+      "training_date": "2026-11-18T15:46:37Z",
+      "training_status": "trained",
+      "validation_status": "evaluated",
+      "approval_status": "approved_experimental_inference",
+      "metrics": {
+        "evaluation_split": "test",
+        "eval_samples": 81,
+        "eval_morphed": 36,
+        "eval_genuine": 45,
+        "accuracy": 0.5802,
+        "precision": 1.0,
+        "recall": 0.0556,
+        "f1_score": 0.1053,
+        "apcer": 0.9444,
+        "bpcer": 0.0,
+        "acer": 0.4722,
+        "confusion_matrix": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 45,
+          "fn": 34
+        }
+      }
+    },
+    {
+      "model_name": "custom_cnn",
+      "architecture": "custom_cnn",
+      "framework": "PyTorch",
+      "feature_key": "raw_face_crop_224x224",
+      "input_dimensions": [
+        3,
+        224,
+        224
+      ],
+      "training_samples": 365,
+      "training_duration_seconds": 60.582,
+      "training_manifest_sha256": "c819852bfc23f21f486c94de2210e653dc5e6c15f37e2e701d0faa6073b89d58",
+      "artifact_path": "models/checkpoints/custom_cnn.pt",
+      "artifact_sha256": "55595a4963d5fa821493d56bd6d672d6daece87ef1d26e530209eb41557cafdd",
+      "training_date": "2026-11-18T15:51:21Z",
+      "training_status": "trained",
+      "validation_status": "evaluated",
+      "approval_status": "approved_experimental_inference",
+      "metrics": {
+        "evaluation_split": "test",
+        "eval_samples": 81,
+        "eval_morphed": 36,
+        "eval_genuine": 45,
+        "accuracy": 0.5679,
+        "precision": 0.6,
+        "recall": 0.0833,
+        "f1_score": 0.1463,
+        "apcer": 0.9167,
+        "bpcer": 0.0444,
+        "acer": 0.4806,
+        "confusion_matrix": {
+          "tp": 3,
+          "fp": 2,
+          "tn": 43,
+          "fn": 33
+        }
+      }
+    },
+    {
+      "model_name": "glcm_rf",
+      "architecture": "glcm_rf",
+      "framework": "scikit-learn",
+      "feature_key": "glcm",
+      "input_dimensions": 5,
+      "training_samples": 365,
+      "training_morphed": 224,
+      "training_genuine": 141,
+      "training_duration_seconds": 0.454,
+      "training_manifest_sha256": "c819852bfc23f21f486c94de2210e653dc5e6c15f37e2e701d0faa6073b89d58",
+      "artifact_path": "models/trained/glcm_rf.joblib",
+      "artifact_sha256": "69a6497ce42365c73530ebf03143c0aeddc3b05d4ffcc937585bd046ed83302c",
+      "training_date": "2026-11-18T15:46:38Z",
+      "training_status": "trained",
+      "validation_status": "evaluated",
+      "approval_status": "approved_experimental_inference",
+      "metrics": {
+        "evaluation_split": "test",
+        "eval_samples": 81,
+        "eval_morphed": 36,
+        "eval_genuine": 45,
+        "accuracy": 0.9877,
+        "precision": 0.973,
+        "recall": 1.0,
+        "f1_score": 0.9863,
+        "apcer": 0.0,
+        "bpcer": 0.0222,
+        "acer": 0.0111,
+        "confusion_matrix": {
+          "tp": 36,
+          "fp": 1,
+          "tn": 44,
+          "fn": 0
+        }
+      }
+    },
+    {
+      "model_name": "hog_svm",
+      "architecture": "hog_svm",
+      "framework": "scikit-learn",
+      "feature_key": "hog",
+      "input_dimensions": 6084,
+      "training_samples": 365,
+      "training_morphed": 224,
+      "training_genuine": 141,
+      "training_duration_seconds": 1.772,
+      "training_manifest_sha256": "c819852bfc23f21f486c94de2210e653dc5e6c15f37e2e701d0faa6073b89d58",
+      "artifact_path": "models/trained/hog_svm.joblib",
+      "artifact_sha256": "c7f4a7a5626d9201c7462bc4b30dc15d754a1a8479fac0937ce53542af1128dd",
+      "training_date": "2026-11-18T15:46:42Z",
+      "training_status": "trained",
+      "validation_status": "evaluated",
+      "approval_status": "approved_experimental_inference",
+      "metrics": {
+        "evaluation_split": "test",
+        "eval_samples": 81,
+        "eval_morphed": 36,
+        "eval_genuine": 45,
+        "accuracy": 0.5802,
+        "precision": 1.0,
+        "recall": 0.0556,
+        "f1_score": 0.1053,
+        "apcer": 0.9444,
+        "bpcer": 0.0,
+        "acer": 0.4722,
+        "confusion_matrix": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 45,
+          "fn": 34
+        }
+      }
+    },
+    {
+      "model_name": "lbp_svm",
+      "architecture": "lbp_svm",
+      "framework": "scikit-learn",
+      "feature_key": "lbp",
+      "input_dimensions": 10,
+      "training_samples": 365,
+      "training_morphed": 224,
+      "training_genuine": 141,
+      "training_duration_seconds": 0.017,
+      "training_manifest_sha256": "c819852bfc23f21f486c94de2210e653dc5e6c15f37e2e701d0faa6073b89d58",
+      "artifact_path": "models/trained/lbp_svm.joblib",
+      "artifact_sha256": "e8b49c950dcb7f44506c9777171f686c50e33b9adb2bc6deafa8c9abbd22c000",
+      "training_date": "2026-11-18T15:46:38Z",
+      "training_status": "trained",
+      "validation_status": "evaluated",
+      "approval_status": "approved_experimental_inference",
+      "metrics": {
+        "evaluation_split": "test",
+        "eval_samples": 81,
+        "eval_morphed": 36,
+        "eval_genuine": 45,
+        "accuracy": 0.7531,
+        "precision": 0.9,
+        "recall": 0.5,
+        "f1_score": 0.6429,
+        "apcer": 0.5,
+        "bpcer": 0.0444,
+        "acer": 0.2722,
+        "confusion_matrix": {
+          "tp": 18,
+          "fp": 2,
+          "tn": 43,
+          "fn": 18
+        }
+      }
+    },
+    {
+      "model_name": "rf_combined",
+      "architecture": "rf_combined",
+      "framework": "scikit-learn",
+      "feature_key": "X",
+      "input_dimensions": 6103,
+      "training_samples": 365,
+      "training_morphed": 224,
+      "training_genuine": 141,
+      "training_duration_seconds": 2.299,
+      "training_manifest_sha256": "c819852bfc23f21f486c94de2210e653dc5e6c15f37e2e701d0faa6073b89d58",
+      "artifact_path": "models/trained/rf_combined.joblib",
+      "artifact_sha256": "a9b4cccd3d3663d9d8ba49775c8ca3cd1a011e30f30077acba618099ac952ae5",
+      "training_date": "2026-11-18T15:46:45Z",
+      "training_status": "trained",
+      "validation_status": "evaluated",
+      "approval_status": "approved_experimental_inference",
+      "metrics": {
+        "evaluation_split": "test",
+        "eval_samples": 81,
+        "eval_morphed": 36,
+        "eval_genuine": 45,
+        "accuracy": 0.8395,
+        "precision": 1.0,
+        "recall": 0.6389,
+        "f1_score": 0.7797,
+        "apcer": 0.3611,
+        "bpcer": 0.0,
+        "acer": 0.1806,
+        "confusion_matrix": {
+          "tp": 23,
+          "fp": 0,
+          "tn": 45,
+          "fn": 13
+        }
+      }
+    },
+    {
+      "model_name": "resnet18",
+      "architecture": "ResNet-18",
+      "framework": "PyTorch",
+      "feature_key": "raw_face_crop_224x224",
+      "input_dimensions": [
+        3,
+        224,
+        224
+      ],
+      "training_status": "ready_for_training",
+      "validation_status": "pending_training",
+      "approval_status": "experimental_prototype",
+      "artifact_path": null,
+      "artifact_sha256": null,
+      "metrics": {
+        "status": "Untrained - awaiting compute cluster"
+      }
+    },
+    {
+      "model_name": "efficientnet_b0",
+      "architecture": "EfficientNet-B0",
+      "framework": "PyTorch",
+      "feature_key": "raw_face_crop_224x224",
+      "input_dimensions": [
+        3,
+        224,
+        224
+      ],
+      "training_status": "ready_for_training",
+      "validation_status": "pending_training",
+      "approval_status": "experimental_prototype",
+      "artifact_path": null,
+      "artifact_sha256": null,
+      "metrics": {
+        "status": "Untrained - awaiting compute cluster"
+      }
+    }
+  ]
+}

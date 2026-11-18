@@ -1,0 +1,12 @@
+{
+  "training_ready": false,
+  "approved_bona_fide": 0,
+  "approved_morphed": 0,
+  "pending_review": 46792,
+  "cache_feature_records": 1000,
+  "blockers": [
+    "No explicitly approved binary labels exist; supervised training is refused.",
+    "No approved leakage-safe train/validation/test split exists.",
+    "No independent test protocol can be executed without approved labels."
+  ]
+}

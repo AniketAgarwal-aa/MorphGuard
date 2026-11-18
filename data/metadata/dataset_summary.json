@@ -1,0 +1,65 @@
+{
+  "image_counts": [
+    {
+      "dataset": "MONOT",
+      "category": "Gate_10",
+      "label": "unknown",
+      "count": 2550
+    },
+    {
+      "dataset": "MONOT",
+      "category": "Gate_25",
+      "label": "unknown",
+      "count": 6350
+    },
+    {
+      "dataset": "MONOT",
+      "category": "Morphed",
+      "label": "morphed",
+      "count": 15240
+    },
+    {
+      "dataset": "ONOT",
+      "category": "digital",
+      "label": "unknown",
+      "count": 11326
+    },
+    {
+      "dataset": "ONOT",
+      "category": "print-scan",
+      "label": "unknown",
+      "count": 11326
+    }
+  ],
+  "corrupted_count": 0,
+  "duplicate_count": 0,
+  "duplicate_hashing": false,
+  "onot_threshold_files": [
+    {
+      "file": "threshold=0.4131552472489117_cosine_images.txt",
+      "cosine_threshold": 0.4131552472489117,
+      "bytes": 339861,
+      "entry_count": 5684
+    },
+    {
+      "file": "threshold=0.4931709463108935_cosine_images.txt",
+      "cosine_threshold": 0.4931709463108935,
+      "bytes": 281307,
+      "entry_count": 4703
+    },
+    {
+      "file": "threshold=0.5970134557846706_cosine_images.txt",
+      "cosine_threshold": 0.5970134557846706,
+      "bytes": 170013,
+      "entry_count": 2840
+    }
+  ],
+  "audit_options": {
+    "sample_limit": null,
+    "datasets": [
+      "MONOT",
+      "ONOT"
+    ],
+    "batch_size": 100
+  }
+}

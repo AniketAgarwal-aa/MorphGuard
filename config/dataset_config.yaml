@@ -1,0 +1,8 @@
+datasets:
+  monot: MONOT
+  onot: ONOT
+label_protocol: restricted_source_confounded
+monot_morphed_category: Morphed
+monot_gate_categories_are: live_acquisition_strata
+onot_categories_are: acquisition_or_processing_strata
+threshold_files_are: subset_membership_annotations

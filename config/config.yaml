@@ -1,0 +1,7 @@
+seed: 42
+batch_size: 32
+workers: 2
+image_size: 224
+max_audit_images: null # null means scan every path; dimensions are sampled
+positive_label: morphed
+uncertainty_band: [0.40, 0.60]

@@ -1,0 +1,18 @@
+version: "1.0"
+required_columns:
+  - image_path
+  - dataset
+  - category
+  - proposed_label
+  - verified_label
+  - label_source
+  - subject_id
+  - morph_pair_id
+  - reviewer_status
+  - review_notes
+  - split
+  - exclusion_reason
+  - manifest_version
+allowed_reviewer_status: [unreviewed, approved, rejected, excluded, uncertain]
+allowed_verified_labels: [genuine, morphed, ""]
+allowed_splits: [train, validation, test, ""]

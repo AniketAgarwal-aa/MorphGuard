@@ -1,0 +1,7 @@
+device: auto
+batch_size: 4
+workers: 0
+pilot_epochs: 2
+max_epochs: 20
+early_stopping_patience: 4
+seed: 42

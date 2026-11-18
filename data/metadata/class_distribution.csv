@@ -1,0 +1,6 @@
+dataset,category,label,count
+MONOT,Gate_10,unknown,2550
+MONOT,Gate_25,unknown,6350
+MONOT,Morphed,morphed,15240
+ONOT,digital,unknown,11326
+ONOT,print-scan,unknown,11326

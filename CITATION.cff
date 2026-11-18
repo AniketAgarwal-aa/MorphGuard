@@ -1,0 +1,6 @@
+cff-version: 1.2.0
+message: "If you use MorphGuard, cite the software and the original MONOT/ONOT publications."
+title: "MorphGuard"
+version: 0.1.0
+date-released: 2026-11-18
+license: MIT

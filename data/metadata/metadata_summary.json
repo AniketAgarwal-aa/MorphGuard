@@ -1,0 +1,243 @@
+{
+  "monot": {
+    "records": 24140,
+    "valid": 24140,
+    "invalid": 0,
+    "formats": {
+      ".png": 24140
+    },
+    "modes": {
+      "RGB": 19060,
+      "RGBA": 5080
+    },
+    "dimensions": [
+      {
+        "width": 356,
+        "height": 475,
+        "count": 10
+      },
+      {
+        "width": 360,
+        "height": 480,
+        "count": 58
+      },
+      {
+        "width": 364,
+        "height": 485,
+        "count": 60
+      },
+      {
+        "width": 368,
+        "height": 491,
+        "count": 46
+      },
+      {
+        "width": 372,
+        "height": 496,
+        "count": 68
+      },
+      {
+        "width": 376,
+        "height": 501,
+        "count": 98
+      },
+      {
+        "width": 380,
+        "height": 507,
+        "count": 136
+      },
+      {
+        "width": 384,
+        "height": 512,
+        "count": 140
+      },
+      {
+        "width": 388,
+        "height": 517,
+        "count": 144
+      },
+      {
+        "width": 392,
+        "height": 523,
+        "count": 102
+      },
+      {
+        "width": 396,
+        "height": 528,
+        "count": 132
+      },
+      {
+        "width": 400,
+        "height": 533,
+        "count": 132
+      },
+      {
+        "width": 404,
+        "height": 539,
+        "count": 120
+      },
+      {
+        "width": 408,
+        "height": 544,
+        "count": 106
+      },
+      {
+        "width": 412,
+        "height": 549,
+        "count": 74
+      },
+      {
+        "width": 416,
+        "height": 555,
+        "count": 104
+      },
+      {
+        "width": 420,
+        "height": 560,
+        "count": 90
+      },
+      {
+        "width": 424,
+        "height": 565,
+        "count": 62
+      },
+      {
+        "width": 428,
+        "height": 571,
+        "count": 52
+      },
+      {
+        "width": 432,
+        "height": 576,
+        "count": 56
+      },
+      {
+        "width": 436,
+        "height": 581,
+        "count": 64
+      },
+      {
+        "width": 440,
+        "height": 587,
+        "count": 74
+      },
+      {
+        "width": 444,
+        "height": 592,
+        "count": 130
+      },
+      {
+        "width": 448,
+        "height": 597,
+        "count": 32
+      },
+      {
+        "width": 452,
+        "height": 603,
+        "count": 52
+      },
+      {
+        "width": 456,
+        "height": 608,
+        "count": 146
+      },
+      {
+        "width": 460,
+        "height": 613,
+        "count": 58
+      },
+      {
+        "width": 464,
+        "height": 619,
+        "count": 56
+      },
+      {
+        "width": 468,
+        "height": 624,
+        "count": 34
+      },
+      {
+        "width": 472,
+        "height": 629,
+        "count": 28
+      },
+      {
+        "width": 476,
+        "height": 635,
+        "count": 18
+      },
+      {
+        "width": 480,
+        "height": 640,
+        "count": 16
+      },
+      {
+        "width": 484,
+        "height": 645,
+        "count": 42
+      },
+      {
+        "width": 512,
+        "height": 512,
+        "count": 16520
+      },
+      {
+        "width": 1190,
+        "height": 1530,
+        "count": 2540
+      },
+      {
+        "width": 1511,
+        "height": 1943,
+        "count": 2540
+      }
+    ],
+    "bytes": {
+      "count": 24140.0,
+      "mean": 830699.9115161558,
+      "std": 921756.8716971868,
+      "min": 229919.0,
+      "25%": 368234.5,
+      "50%": 413484.0,
+      "75%": 489389.25,
+      "max": 3929019.0
+    },
+    "categories": {
+      "Morphed": 15240,
+      "Gate_25": 6350,
+      "Gate_10": 2550
+    }
+  },
+  "onot": {
+    "records": 22652,
+    "valid": 22652,
+    "invalid": 0,
+    "formats": {
+      ".png": 22652
+    },
+    "modes": {
+      "RGB": 22652
+    },
+    "dimensions": [
+      {
+        "width": 512,
+        "height": 512,
+        "count": 22652
+      }
+    ],
+    "bytes": {
+      "count": 22652.0,
+      "mean": 315732.29798693274,
+      "std": 43899.696842669764,
+      "min": 171359.0,
+      "25%": 285731.0,
+      "50%": 317230.0,
+      "75%": 347844.25,
+      "max": 448935.0
+    },
+    "categories": {
+      "digital": 11326,
+      "print-scan": 11326
+    }
+  }
+}

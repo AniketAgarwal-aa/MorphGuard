@@ -1,0 +1,10 @@
+positive_label: morphed
+uncertainty_band: [0.40, 0.60]
+models:
+  - custom_cnn
+  - resnet18
+  - efficientnet_b0
+  - lbp_svm
+  - hog_svm
+  - glcm_rf
+  - combined_svm

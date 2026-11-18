@@ -1,0 +1,9 @@
+image_size: 224
+face_detector: opencv_haar_frontal
+clahe: false
+quality:
+  blur_variance_min: 50
+  brightness_min: 45
+  brightness_max: 220
+multiple_faces: largest_face_with_warning
+no_face: reject_with_state

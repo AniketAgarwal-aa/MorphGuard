@@ -1,0 +1,62 @@
+{
+  "model_name": "mobilenet_v3_small",
+  "architecture": "mobilenet_v3_small",
+  "framework": "PyTorch",
+  "description": "Deep convolutional neural network: mobilenet_v3_small",
+  "feature_key": "raw_face_crop_224x224",
+  "input_dimensions": [
+    3,
+    224,
+    224
+  ],
+  "training_samples": 591,
+  "training_morphed": 408,
+  "training_genuine": 183,
+  "training_duration_seconds": 195.822,
+  "artifact_path": "models/checkpoints/mobilenet_v3_small.pt",
+  "artifact_sha256": "30ef3bf8670c0eb245dabfa55dd08aa07a90977349d951c7a5785ad8c97a2a22",
+  "training_date": "2026-11-19T12:36:49Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "calibrated_threshold": 0.9318467974662781,
+  "default_threshold": 0.5,
+  "metrics": {
+    "threshold": 0.9318,
+    "accuracy": 0.8,
+    "precision": 0.8,
+    "recall": 1.0,
+    "specificity": 0.0,
+    "f1_score": 0.8889,
+    "apcer": 0.0,
+    "bpcer": 1.0,
+    "acer": 0.5,
+    "confusion_matrix": {
+      "tp": 228,
+      "fp": 57,
+      "tn": 0,
+      "fn": 0
+    },
+    "roc_auc": 0.1632,
+    "pr_auc": 0.7277
+  },
+  "uncalibrated_metrics": {
+    "threshold": 0.5,
+    "accuracy": 0.8,
+    "precision": 0.8,
+    "recall": 1.0,
+    "specificity": 0.0,
+    "f1_score": 0.8889,
+    "apcer": 0.0,
+    "bpcer": 1.0,
+    "acer": 0.5,
+    "confusion_matrix": {
+      "tp": 228,
+      "fp": 57,
+      "tn": 0,
+      "fn": 0
+    },
+    "roc_auc": 0.1632,
+    "pr_auc": 0.7277
+  }
+}

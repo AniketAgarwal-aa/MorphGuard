@@ -13,6 +13,12 @@ DEFAULT_HF_REPO = "AniketAgarwal-aa/MorphGuard-Models"
 
 SUBFOLDERS = {
     'custom_cnn': 'deep_learning',
+    'mobilenet_v3_small': 'deep_learning',
+    'resnet18': 'deep_learning',
+    'resnet34': 'deep_learning',
+    'resnet50': 'deep_learning',
+    'efficientnet_b0': 'deep_learning',
+    'densenet121': 'deep_learning',
     'stacking_ensemble': 'ensembles',
     'voting_ensemble': 'ensembles',
 }
@@ -49,7 +55,11 @@ def resolve_model_artifact(model_name: str, repo_id: Optional[str] = None, token
         Path to verified local artifact
     """
     clean_name = Path(model_name).stem
-    is_pytorch = clean_name.startswith("custom_cnn") or model_name.endswith(".pt")
+    is_pytorch = (
+        SUBFOLDERS.get(clean_name) == 'deep_learning'
+        or clean_name.startswith("custom_cnn")
+        or model_name.endswith(".pt")
+    )
     ext = ".pt" if is_pytorch else ".joblib"
     filename = f"{clean_name}{ext}"
 

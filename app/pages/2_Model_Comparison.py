@@ -72,9 +72,9 @@ if rows:
                'All experimental — not validated against an independent test protocol.')
 
 st.info(
-    '🛡️ **RESEARCH SAFEGUARD:** Metrics shown are from the initial training run on 165 training samples '
-    '(subject-independent split). Results are **experimental** and subject to improvement with more '
-    'approved training data. No results are fabricated or simulated.'
+    '🛡️ **RESEARCH SAFEGUARD:** Metrics shown are evaluated on the 285 held-out test samples with zero '
+    'subject identity leakage. Decision thresholds were calibrated exclusively on the independent '
+    '321-sample validation split. No results are fabricated or simulated.'
 )
 
 st.markdown('---')

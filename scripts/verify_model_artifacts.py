@@ -41,7 +41,8 @@ def main():
                 score = adapter.predict_score(dummy_img)
                 print(f"  Inference OK: Score={score:.4f} (feature_key={fk}, dims={dims})")
             elif p.name.endswith('.pt'):
-                adapter = load_pytorch_model(p, architecture='custom_cnn')
+                arch = m.get('architecture')
+                adapter = load_pytorch_model(p, architecture=arch)
                 score = adapter.predict_score(dummy_img)
                 print(f"  Inference OK: Score={score:.4e} (input_dims={dims})")
             

@@ -16,6 +16,12 @@ ROOT = Path(__file__).parents[1]
 
 SUBFOLDERS = {
     'custom_cnn': 'deep_learning',
+    'mobilenet_v3_small': 'deep_learning',
+    'resnet18': 'deep_learning',
+    'resnet34': 'deep_learning',
+    'resnet50': 'deep_learning',
+    'efficientnet_b0': 'deep_learning',
+    'densenet121': 'deep_learning',
     'stacking_ensemble': 'ensembles',
     'voting_ensemble': 'ensembles',
 }

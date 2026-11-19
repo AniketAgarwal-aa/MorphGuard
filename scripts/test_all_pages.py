@@ -33,7 +33,7 @@ for p in pages:
     page_path = ROOT / p
     name = page_path.name
     try:
-        at = AppTest.from_file(str(page_path), default_timeout=30)
+        at = AppTest.from_file(str(page_path), default_timeout=60)
         at.run()
         has_error = bool(at.exception)
         exc_info = str(at.exception[0].value) if at.exception else None

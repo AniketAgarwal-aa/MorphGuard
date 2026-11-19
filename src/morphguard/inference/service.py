@@ -67,16 +67,41 @@ class PyTorchModelAdapter:
             prob = float(torch.softmax(out, dim=1)[0, 1].item())
         return prob
 
-def load_pytorch_model(path: Path, architecture: str = "custom_cnn", threshold: float = 0.5) -> PyTorchModelAdapter:
+def load_pytorch_model(path: Path, architecture: Optional[str] = None, threshold: Optional[float] = None) -> PyTorchModelAdapter:
     import torch
     from ..classification.models import create_model
     if not path.exists():
         raise FileNotFoundError(f"Model artifact not found: {path}")
-    model = create_model(architecture)
     checkpoint = torch.load(path, map_location="cpu", weights_only=False)
-    state = checkpoint.get("model", checkpoint) if isinstance(checkpoint, dict) else checkpoint
+
+    arch = architecture
+    if not arch and isinstance(checkpoint, dict):
+        arch = checkpoint.get("architecture")
+    if not arch:
+        arch = path.stem
+    if not arch:
+        arch = "custom_cnn"
+
+    model = create_model(arch)
+    if isinstance(checkpoint, dict):
+        if "state_dict" in checkpoint:
+            state = checkpoint["state_dict"]
+        elif "model" in checkpoint:
+            state = checkpoint["model"]
+        else:
+            state = checkpoint
+    else:
+        state = checkpoint
+
     model.load_state_dict(state)
-    return PyTorchModelAdapter(model, threshold=threshold, model_name=path.name)
+
+    thresh = threshold
+    if thresh is None and isinstance(checkpoint, dict):
+        thresh = checkpoint.get("calibrated_threshold")
+    if thresh is None:
+        thresh = 0.5
+
+    return PyTorchModelAdapter(model, threshold=thresh, model_name=path.name)
 
 class InferenceService:
     def __init__(self, model=None, preprocessor: Optional[FacePreprocessor] = None, uncertainty: Optional[tuple[float, float]] = None, threshold: Optional[float] = None):

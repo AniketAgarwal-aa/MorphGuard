@@ -43,7 +43,7 @@ def load_pipeline_model(name: str):
         return None
 
     if name.endswith('.pt') or str(resolved_path).endswith('.pt'):
-        return load_pytorch_model(resolved_path, architecture='custom_cnn', threshold=thresh)
+        return load_pytorch_model(resolved_path, architecture=stem, threshold=thresh)
     else:
         if not meta_path.exists():
             if any(k in name for k in ('glcm', 'lda', 'knn', 'nb', 'ensemble')):
@@ -93,20 +93,26 @@ with st.sidebar:
 
     preferred_order = [
         'combined_svm.joblib',
-        'logistic_regression.joblib',
         'hog_svm.joblib',
+        'logistic_regression.joblib',
         'hist_gradient_boosting.joblib',
         'extra_trees.joblib',
         'rf_combined.joblib',
         'linear_svm.joblib',
+        'efficientnet_b0.pt',
         'voting_ensemble.joblib',
         'stacking_ensemble.joblib',
         'custom_cnn.pt',
         'lbp_svm.joblib',
+        'mobilenet_v3_small.pt',
         'lda.joblib',
-        'glcm_rf.joblib',
-        'knn.joblib',
+        'resnet18.pt',
+        'densenet121.pt',
+        'resnet34.pt',
         'gaussian_nb.joblib',
+        'glcm_rf.joblib',
+        'resnet50.pt',
+        'knn.joblib',
     ]
 
     available_set = local_models.union(registry_models)

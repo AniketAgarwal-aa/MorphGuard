@@ -11,6 +11,7 @@ data/review_pilot/
 data/test_exports/
 models/checkpoints/
 models/trained/
+models/saved/
 models/hf_export/
 models/cache/
 *.pt
@@ -23,6 +24,8 @@ venv/
 .pytest_cache/
 results/plots/
 *.log
+quarantine/
+reports/hf_model_table.txt
 *.bak
 *.tmp
 .DS_Store

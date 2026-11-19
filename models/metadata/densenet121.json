@@ -1,0 +1,62 @@
+{
+  "model_name": "densenet121",
+  "architecture": "densenet121",
+  "framework": "PyTorch",
+  "description": "Deep convolutional neural network: densenet121",
+  "feature_key": "raw_face_crop_224x224",
+  "input_dimensions": [
+    3,
+    224,
+    224
+  ],
+  "training_samples": 591,
+  "training_morphed": 408,
+  "training_genuine": 183,
+  "training_duration_seconds": 4900.45,
+  "artifact_path": "models/checkpoints/densenet121.pt",
+  "artifact_sha256": "9169572094dcad770c6ea36e2857f5b5da4e73a3d53cee738f60c99885c4fd83",
+  "training_date": "2026-11-19T14:32:06Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "calibrated_threshold": 0.005979340523481369,
+  "default_threshold": 0.5,
+  "metrics": {
+    "threshold": 0.006,
+    "accuracy": 0.6386,
+    "precision": 0.931,
+    "recall": 0.5921,
+    "specificity": 0.8246,
+    "f1_score": 0.7239,
+    "apcer": 0.4079,
+    "bpcer": 0.1754,
+    "acer": 0.2917,
+    "confusion_matrix": {
+      "tp": 135,
+      "fp": 10,
+      "tn": 47,
+      "fn": 93
+    },
+    "roc_auc": 0.8089,
+    "pr_auc": 0.9461
+  },
+  "uncalibrated_metrics": {
+    "threshold": 0.5,
+    "accuracy": 0.3579,
+    "precision": 1.0,
+    "recall": 0.1974,
+    "specificity": 1.0,
+    "f1_score": 0.3297,
+    "apcer": 0.8026,
+    "bpcer": 0.0,
+    "acer": 0.4013,
+    "confusion_matrix": {
+      "tp": 45,
+      "fp": 0,
+      "tn": 57,
+      "fn": 183
+    },
+    "roc_auc": 0.8089,
+    "pr_auc": 0.9461
+  }
+}

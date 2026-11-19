@@ -1,0 +1,62 @@
+{
+  "model_name": "efficientnet_b0",
+  "architecture": "efficientnet_b0",
+  "framework": "PyTorch",
+  "description": "Deep convolutional neural network: efficientnet_b0",
+  "feature_key": "raw_face_crop_224x224",
+  "input_dimensions": [
+    3,
+    224,
+    224
+  ],
+  "training_samples": 591,
+  "training_morphed": 408,
+  "training_genuine": 183,
+  "training_duration_seconds": 1229.375,
+  "artifact_path": "models/checkpoints/efficientnet_b0.pt",
+  "artifact_sha256": "ef6d7e5a4dfbbd61a0eb79a1fc50a4d94964fe9fe2118d7f41fdac35de9a799e",
+  "training_date": "2026-11-19T13:08:42Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "calibrated_threshold": 0.003193704877048731,
+  "default_threshold": 0.5,
+  "metrics": {
+    "threshold": 0.0032,
+    "accuracy": 0.9158,
+    "precision": 0.9679,
+    "recall": 0.9254,
+    "specificity": 0.8772,
+    "f1_score": 0.9462,
+    "apcer": 0.0746,
+    "bpcer": 0.1228,
+    "acer": 0.0987,
+    "confusion_matrix": {
+      "tp": 211,
+      "fp": 7,
+      "tn": 50,
+      "fn": 17
+    },
+    "roc_auc": 0.9631,
+    "pr_auc": 0.9884
+  },
+  "uncalibrated_metrics": {
+    "threshold": 0.5,
+    "accuracy": 0.5614,
+    "precision": 0.9905,
+    "recall": 0.4561,
+    "specificity": 0.9825,
+    "f1_score": 0.6246,
+    "apcer": 0.5439,
+    "bpcer": 0.0175,
+    "acer": 0.2807,
+    "confusion_matrix": {
+      "tp": 104,
+      "fp": 1,
+      "tn": 56,
+      "fn": 124
+    },
+    "roc_auc": 0.9631,
+    "pr_auc": 0.9884
+  }
+}

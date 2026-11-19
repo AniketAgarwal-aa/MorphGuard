@@ -552,7 +552,7 @@ def progress_section(title: str, body_html: str = '', caption: str = ''):
 def footer():
     """Render subtle footer at the bottom of the page."""
     st.markdown(
-        '<div class="mg-footer">MorphGuard &nbsp;·&nbsp; Biometric Security Research &nbsp;·&nbsp; v1.0.0 Research Edition</div>',
+        '<div class="mg-footer">MorphGuard &nbsp;·&nbsp; Biometric Security Research &nbsp;·&nbsp; v3.2 Professional Edition</div>',
         unsafe_allow_html=True,
     )
 
@@ -579,13 +579,13 @@ def render_sidebar_controls():
         # Status & Version panel
         accent = '#35d1c4' if new_theme == 'dark' else '#0284c7'
         st.markdown(
-            f'''<div style="background:rgba(2,132,199,0.08);border:1px solid rgba(2,132,199,0.2);border-radius:10px;padding:.7rem .85rem;margin-top:.5rem">
-              <div style="font-size:.78rem;font-weight:700;color:{accent}">MORPHGUARD SYSTEM</div>
-              <div style="font-size:.72rem;margin-top:2px;display:flex;align-items:center;gap:6px">
+            f'''<div style="background:rgba(2,132,199,0.08);border:1px solid rgba(2,132,199,0.22);border-radius:10px;padding:.75rem .85rem;margin-top:.5rem">
+              <div style="font-size:.78rem;font-weight:750;letter-spacing:0.06em;color:{accent}">MORPHGUARD V3.2</div>
+              <div style="font-size:.72rem;margin-top:3px;display:flex;align-items:center;gap:6px">
                 <span class="status-dot active"></span>
-                <span style="font-weight:600">In-Process Research Mode</span>
+                <span style="font-weight:600">Local Research Pipeline</span>
               </div>
-              <div style="font-size:.68rem;opacity:.8;margin-top:4px">v1.0.0 · MONOT/ONOT Corpora</div>
+              <div style="font-size:.68rem;opacity:.8;margin-top:4px">46,792 Images · 21 Calibrated Models</div>
             </div>''',
             unsafe_allow_html=True
         )

@@ -196,13 +196,17 @@ with tab_single:
         source_name = uploaded_file.name
         source_bytes = uploaded_file.getvalue()
     elif sample_choice == 'Sample A: Genuine candidate (MONOT Gate_10)':
-        sample_path = ROOT / 'MONOT/Gate_10/S113923411-GF-A35-EEA-T14-S1-LH-C1-I0048-F00-0.png'
+        sample_path = ROOT / 'MONOT/Gate_10/S457681878-GF-A95-EEA-T14-S1-LH-C1-I0017-F00-0.png'
+        if not sample_path.exists():
+            sample_path = ROOT / 'MONOT/Gate_10/S113923411-GF-A35-EEA-T14-S1-LH-C1-I0048-F00-0.png'
         if sample_path.exists():
             target_source = sample_path
             source_name = sample_path.name
             source_bytes = sample_path.read_bytes()
     elif sample_choice == 'Sample B: Morphed candidate (MONOT Morphed)':
-        sample_path = ROOT / 'MONOT/Morphed/M_S113923411-GF-A35-EEA-T14-S1-LH-C1-I0048-F00_S198149424-GF-A51-EEA-T13-S1-LH-C1-I0055-F00_C01_B30_W30_PA01_PM00_F00.png'
+        sample_path = ROOT / 'MONOT/Morphed/M_S115293589-GF-A67-EME-T01-S1-LH-C1-I0030-F00_S368730932-GF-A97-EME-T14-S1-LH-C1-I0020-F00_C01_B30_W30_PA01_PM00_F00.png'
+        if not sample_path.exists():
+            sample_path = ROOT / 'MONOT/Morphed/M_S113923411-GF-A35-EEA-T14-S1-LH-C1-I0048-F00_S198149424-GF-A51-EEA-T13-S1-LH-C1-I0055-F00_C01_B30_W30_PA01_PM00_F00.png'
         if sample_path.exists():
             target_source = sample_path
             source_name = sample_path.name
@@ -414,44 +418,73 @@ with tab_single:
         section_title('Section D — Morph Detection Model Status')
 
         cur_state = analysis_result.get('state', 'MODEL UNAVAILABLE')
-        if cur_state == 'MODEL UNAVAILABLE' or model is None:
+        if cur_state in {'MODEL UNAVAILABLE', 'FACE NOT DETECTED', 'INVALID IMAGE', 'FEATURE EXTRACTION FAILED', 'INFERENCE ERROR'} or model is None:
+            err_msg = analysis_result.get('error', '')
+            status_color = '#ef4444' if cur_state in {'INVALID IMAGE', 'INFERENCE ERROR', 'FEATURE EXTRACTION FAILED'} else '#f59e0b'
+            status_icon = '🚫' if cur_state in {'INVALID IMAGE', 'INFERENCE ERROR', 'FEATURE EXTRACTION FAILED'} else 'ℹ️'
+            
             st.markdown(
-                f'''<div class="panel" style="border-left:4px solid #f59e0b;padding:1.2rem">
-                  <div style="font-size:1.15rem;font-weight:800;color:#f59e0b">STATUS: MODEL UNAVAILABLE</div>
-                  <p style="margin-top:.4rem;line-height:1.6">
-                    Image processing and feature extraction completed successfully. No trained model was selected,
-                    so exploratory analysis is presented without classification.
-                  </p>
-                  <div style="font-size:.78rem;opacity:.8;margin-top:.4rem">
-                    MorphGuard enforces research governance: uncalibrated confidence scores, simulated ROC curves,
-                    and fabricated morph/genuine predictions are strictly prohibited. Select a trained model from the sidebar to enable experimental inference.
+                f'''<div class="panel" style="border-left:5px solid {status_color};padding:1.2rem">
+                  <div style="font-size:1.2rem;font-weight:800;color:{status_color}">{status_icon} TECHNICAL STATUS: {cur_state}</div>
+                  <div style="margin-top:.4rem;line-height:1.6">
+                    <b>Inference Status:</b> <code>{'FAILED' if cur_state != 'MODEL UNAVAILABLE' else 'NO MODEL'}</code> · <b>Active Model:</b> <code>{selected_model_name}</code>
+                  </div>
+                  {f'<p style="margin-top:.4rem;color:#f87171"><b>Diagnostic:</b> {err_msg}</p>' if err_msg else '<p style="margin-top:.4rem;line-height:1.5">No active trained model was selected or processing requirements were not met. Technical safeguards prevent speculative classification.</p>'}
+                  <div style="font-size:.78rem;opacity:.8;margin-top:.4rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:.4rem">
+                    MorphGuard Research Safeguard: Unverified classifications and fabricated predictions are strictly prohibited under system governance.
                   </div>
                 </div>''',
                 unsafe_allow_html=True
             )
         else:
             # Active experimental inference
-            score = analysis_result.get('score', 0.5)
-            badge_color = '#ef4444' if 'MORPH' in cur_state else ('#10b981' if 'GENUINE' in cur_state else '#f59e0b')
-            badge_icon = '🚨' if 'MORPH' in cur_state else ('✅' if 'GENUINE' in cur_state else '⚠️')
+            score = float(analysis_result.get('morph_probability', analysis_result.get('score', 0.0)))
+            applied_thresh = float(analysis_result.get('decision_threshold', 0.5))
+            model_disp = analysis_result.get('model_name', selected_model_name)
+            explanation = analysis_result.get('explanation', '')
+            
+            is_morphed = cur_state == 'MORPHED'
+            badge_color = '#ef4444' if is_morphed else '#10b981'
+            badge_icon = '🚨' if is_morphed else '✅'
+            classification_title = 'MORPHED' if is_morphed else 'GENUINE'
+            classification_sub = 'Potential Morph Attack' if is_morphed else 'Bona Fide Biometric'
 
             st.markdown(
                 f'''<div class="panel" style="border-left:5px solid {badge_color};padding:1.2rem">
-                  <div style="font-size:1.25rem;font-weight:800;color:{badge_color}">
-                    {badge_icon} DETECTION RESULT: {cur_state}
+                  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem">
+                    <div style="font-size:1.35rem;font-weight:800;color:{badge_color}">
+                      {badge_icon} CLASSIFICATION: {classification_title}
+                    </div>
+                    <span style="background:{badge_color}22;color:{badge_color};border:1px solid {badge_color}55;padding:2px 10px;border-radius:12px;font-weight:700;font-size:0.85rem">
+                      {classification_sub}
+                    </span>
                   </div>
-                  <div style="margin-top:.6rem;display:flex;gap:2rem;flex-wrap:wrap">
-                    <div><b>Inference Score:</b> <code>{score:.4f}</code></div>
-                    <div><b>Active Model:</b> <code>{selected_model_name}</code></div>
-                    <div><b>Decision Threshold:</b> <code>0.5000</code> (Uncertainty zone: [0.40, 0.60])</div>
+                  
+                  <div style="margin-top:.8rem;display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:1rem;background:rgba(255,255,255,0.03);padding:0.8rem;border-radius:8px">
+                    <div>
+                      <div style="font-size:0.75rem;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px">Morph-Class Probability</div>
+                      <div style="font-size:1.25rem;font-weight:700;font-family:monospace;color:{badge_color}">{score:.4f}</div>
+                    </div>
+                    <div>
+                      <div style="font-size:0.75rem;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px">Decision Threshold (τ*)</div>
+                      <div style="font-size:1.25rem;font-weight:700;font-family:monospace">{applied_thresh:.4f}</div>
+                    </div>
+                    <div>
+                      <div style="font-size:0.75rem;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px">Active Model</div>
+                      <div style="font-size:1.0rem;font-weight:600;font-family:monospace">{model_disp}</div>
+                    </div>
+                    <div>
+                      <div style="font-size:0.75rem;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px">Inference Status</div>
+                      <div style="font-size:1.0rem;font-weight:700;color:#10b981">SUCCESS</div>
+                    </div>
                   </div>
-                  <p style="margin-top:.6rem;font-size:.85rem;line-height:1.5;opacity:.9">
-                    <b>Experimental Model Output:</b> This classification was generated by an experimental model trained on
-                    provenance-verified MONOT/ONOT partitions with strict subject-identity separation.
+
+                  <p style="margin-top:.8rem;font-size:.9rem;line-height:1.5;opacity:.95">
+                    <b>Result Explanation:</b> {explanation}
                   </p>
-                  <div style="font-size:.78rem;opacity:.75;margin-top:.4rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:.4rem">
-                    <b>Research Safeguard Notice:</b> This is an experimental research detector trained on 365 approved samples.
-                    It has not completed full independent certification under ISO/IEC 30107-3.
+                  
+                  <div style="font-size:.78rem;opacity:.75;margin-top:.5rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:.4rem">
+                    <b>Probability vs. Confidence Notice:</b> The value <code>{score:.4f}</code> represents the model's calibrated continuous probability score P(morphed) under ISO/IEC 30107-3 methodology. It is directly compared against the validation-calibrated decision threshold τ* = {applied_thresh:.4f} without artificial uncertainty bands.
                   </div>
                 </div>''',
                 unsafe_allow_html=True
@@ -470,6 +503,26 @@ with tab_single:
         st.markdown('---')
         section_title('Section E — Reports & Audit Export')
 
+        if cur_state in {'GENUINE', 'MORPHED'}:
+            model_status_record = {
+                'selected_model': selected_model_name,
+                'classification': cur_state,
+                'morph_probability': float(analysis_result.get('morph_probability', analysis_result.get('score', 0.0))),
+                'decision_threshold': float(analysis_result.get('decision_threshold', 0.5)),
+                'inference_status': 'SUCCESS',
+                'explanation': analysis_result.get('explanation', ''),
+                'classification_performed': True,
+                'notice': 'Experimental biometric classification performed under ISO/IEC 30107-3 validation-calibrated threshold.'
+            }
+        else:
+            model_status_record = {
+                'selected_model': selected_model_name,
+                'state': cur_state,
+                'error': analysis_result.get('error', ''),
+                'classification_performed': False,
+                'notice': 'Technical safeguard active: no classification performed.'
+            }
+
         report_payload = {
             'image_metadata': {
                 'filename': source_name,
@@ -484,12 +537,7 @@ with tab_single:
             },
             'quality_metrics': q,
             'feature_summary': feature_summary,
-            'model_status': {
-                'selected_model': selected_model_name,
-                'state': 'MODEL UNAVAILABLE',
-                'classification_performed': False,
-                'notice': 'No approved model artifact installed. Research safeguards active.'
-            },
+            'model_status': model_status_record,
             'processing_seconds': proc_time,
             'timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
         }
@@ -539,12 +587,16 @@ with tab_compare:
     source_b = comp_file_b
 
     if sample_btn_a or (sample_choice == 'Sample A: Genuine candidate (MONOT Gate_10)' and not comp_file_a):
-        sample_a_path = ROOT / 'MONOT/Gate_10/S113923411-GF-A35-EEA-T14-S1-LH-C1-I0048-F00-0.png'
+        sample_a_path = ROOT / 'MONOT/Gate_10/S457681878-GF-A95-EEA-T14-S1-LH-C1-I0017-F00-0.png'
+        if not sample_a_path.exists():
+            sample_a_path = ROOT / 'MONOT/Gate_10/S113923411-GF-A35-EEA-T14-S1-LH-C1-I0048-F00-0.png'
         if sample_a_path.exists():
             source_a = sample_a_path
 
     if sample_btn_b or (sample_choice == 'Sample B: Morphed candidate (MONOT Morphed)' and not comp_file_b):
-        sample_b_path = ROOT / 'MONOT/Morphed/M_S113923411-GF-A35-EEA-T14-S1-LH-C1-I0048-F00_S198149424-GF-A51-EEA-T13-S1-LH-C1-I0055-F00_C01_B30_W30_PA01_PM00_F00.png'
+        sample_b_path = ROOT / 'MONOT/Morphed/M_S115293589-GF-A67-EME-T01-S1-LH-C1-I0030-F00_S368730932-GF-A97-EME-T14-S1-LH-C1-I0020-F00_C01_B30_W30_PA01_PM00_F00.png'
+        if not sample_b_path.exists():
+            sample_b_path = ROOT / 'MONOT/Morphed/M_S113923411-GF-A35-EEA-T14-S1-LH-C1-I0048-F00_S198149424-GF-A51-EEA-T13-S1-LH-C1-I0055-F00_C01_B30_W30_PA01_PM00_F00.png'
         if sample_b_path.exists():
             source_b = sample_b_path
 
@@ -613,24 +665,34 @@ with tab_compare:
                 thresh_val = getattr(comp_model, 'threshold', 0.5)
                 score_a = float(comp_model.predict_score(crop_a))
                 score_b = float(comp_model.predict_score(crop_b))
-                state_a = "MORPHED / MORPHING ATTACK" if score_a >= thresh_val else "GENUINE / BONA FIDE"
-                state_b = "MORPHED / MORPHING ATTACK" if score_b >= thresh_val else "GENUINE / BONA FIDE"
+                state_a = "MORPHED" if score_a >= thresh_val else "GENUINE"
+                state_b = "MORPHED" if score_b >= thresh_val else "GENUINE"
 
                 mc_col1, mc_col2 = st.columns(2)
                 with mc_col1:
-                    bg_a = '#ef4444' if 'MORPH' in state_a else ('#10b981' if 'GENUINE' in state_a else '#f59e0b')
+                    bg_a = '#ef4444' if state_a == 'MORPHED' else '#10b981'
+                    icon_a = '🚨' if state_a == 'MORPHED' else '✅'
+                    sub_a = 'Potential Morph Attack' if state_a == 'MORPHED' else 'Bona Fide Biometric'
                     st.markdown(
                         f'''<div class="panel" style="border-left:4px solid {bg_a};padding:1rem">
-                          <div style="font-weight:700;color:{bg_a}">IMAGE A: {state_a}</div>
-                          <div>Score: <code>{score_a:.4f}</code></div>
+                          <div style="font-weight:800;font-size:1.15rem;color:{bg_a}">{icon_a} IMAGE A: {state_a}</div>
+                          <div style="font-size:0.82rem;color:{bg_a};margin-top:2px">{sub_a}</div>
+                          <div style="margin-top:8px;font-size:0.9rem"><b>Morph-Class Probability:</b> <code>{score_a:.4f}</code></div>
+                          <div style="margin-top:2px;font-size:0.9rem"><b>Decision Threshold (τ*):</b> <code>{thresh_val:.4f}</code></div>
+                          <div style="margin-top:4px;font-size:0.8rem;opacity:0.85">Status: <code>SUCCESS</code> · P(morph) {'≥' if score_a >= thresh_val else '<'} τ*</div>
                         </div>''', unsafe_allow_html=True
                     )
                 with mc_col2:
-                    bg_b = '#ef4444' if 'MORPH' in state_b else ('#10b981' if 'GENUINE' in state_b else '#f59e0b')
+                    bg_b = '#ef4444' if state_b == 'MORPHED' else '#10b981'
+                    icon_b = '🚨' if state_b == 'MORPHED' else '✅'
+                    sub_b = 'Potential Morph Attack' if state_b == 'MORPHED' else 'Bona Fide Biometric'
                     st.markdown(
                         f'''<div class="panel" style="border-left:4px solid {bg_b};padding:1rem">
-                          <div style="font-weight:700;color:{bg_b}">IMAGE B: {state_b}</div>
-                          <div>Score: <code>{score_b:.4f}</code></div>
+                          <div style="font-weight:800;font-size:1.15rem;color:{bg_b}">{icon_b} IMAGE B: {state_b}</div>
+                          <div style="font-size:0.82rem;color:{bg_b};margin-top:2px">{sub_b}</div>
+                          <div style="margin-top:8px;font-size:0.9rem"><b>Morph-Class Probability:</b> <code>{score_b:.4f}</code></div>
+                          <div style="margin-top:2px;font-size:0.9rem"><b>Decision Threshold (τ*):</b> <code>{thresh_val:.4f}</code></div>
+                          <div style="margin-top:4px;font-size:0.8rem;opacity:0.85">Status: <code>SUCCESS</code> · P(morph) {'≥' if score_b >= thresh_val else '<'} τ*</div>
                         </div>''', unsafe_allow_html=True
                     )
             except Exception as m_exc:

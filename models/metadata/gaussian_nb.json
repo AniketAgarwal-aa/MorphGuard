@@ -1,0 +1,40 @@
+{
+  "model_name": "gaussian_nb",
+  "architecture": "gaussian_nb",
+  "framework": "scikit-learn",
+  "description": "Gaussian Naive Bayes classifier on spatial texture descriptors",
+  "feature_key": "glcm",
+  "input_dimensions": 5,
+  "training_samples": 591,
+  "training_morphed": 408,
+  "training_genuine": 183,
+  "training_duration_seconds": 0.001,
+  "artifact_path": "models/trained/gaussian_nb.joblib",
+  "artifact_sha256": "b26ce942d6c1136442eaa5edc0789f82a971798ebac0c85065e09f79a2de180a",
+  "training_date": "2026-11-19T03:41:06Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "metrics": {
+    "evaluation_split": "test",
+    "eval_samples": 285,
+    "eval_morphed": 228,
+    "eval_genuine": 57,
+    "accuracy": 0.5228,
+    "precision": 0.9259,
+    "recall": 0.4386,
+    "specificity": 0.8596,
+    "f1_score": 0.5952,
+    "apcer": 0.5614,
+    "bpcer": 0.1404,
+    "acer": 0.3509,
+    "roc_auc": 0.856,
+    "pr_auc": 0.9068,
+    "confusion_matrix": {
+      "tp": 100,
+      "fp": 8,
+      "tn": 49,
+      "fn": 128
+    }
+  }
+}

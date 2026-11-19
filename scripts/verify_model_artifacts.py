@@ -36,10 +36,7 @@ def main():
             print(f"  Artifact: {p.name} ({sz:,} bytes)")
             
             if p.name.endswith('.joblib'):
-                fk = 'combined'
-                if 'glcm' in name: fk = 'glcm'
-                elif 'lbp' in name: fk = 'lbp'
-                elif 'hog' in name: fk = 'hog'
+                fk = 'combined' if feat_key == 'X' else feat_key
                 adapter = load_joblib_model(p, feature_key=fk)
                 score = adapter.predict_score(dummy_img)
                 print(f"  Inference OK: Score={score:.4f} (feature_key={fk}, dims={dims})")

@@ -1,0 +1,40 @@
+{
+  "model_name": "linear_svm",
+  "architecture": "linear_svm",
+  "framework": "scikit-learn",
+  "description": "Linear Support Vector Classifier on scaled combined features",
+  "feature_key": "X",
+  "input_dimensions": 6103,
+  "training_samples": 591,
+  "training_morphed": 408,
+  "training_genuine": 183,
+  "training_duration_seconds": 1.635,
+  "artifact_path": "models/trained/linear_svm.joblib",
+  "artifact_sha256": "7d4718f3f2b7af27fef4549b5b725895d8a9a0386482c930517917c3d435ce7d",
+  "training_date": "2026-11-19T03:40:25Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "metrics": {
+    "evaluation_split": "test",
+    "eval_samples": 285,
+    "eval_morphed": 228,
+    "eval_genuine": 57,
+    "accuracy": 0.2596,
+    "precision": 1.0,
+    "recall": 0.0746,
+    "specificity": 1.0,
+    "f1_score": 0.1388,
+    "apcer": 0.9254,
+    "bpcer": 0.0,
+    "acer": 0.4627,
+    "roc_auc": 0.9675,
+    "pr_auc": 0.9854,
+    "confusion_matrix": {
+      "tp": 17,
+      "fp": 0,
+      "tn": 57,
+      "fn": 211
+    }
+  }
+}

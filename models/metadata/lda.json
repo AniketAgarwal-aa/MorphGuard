@@ -1,0 +1,40 @@
+{
+  "model_name": "lda",
+  "architecture": "lda",
+  "framework": "scikit-learn",
+  "description": "Linear Discriminant Analysis with automatic shrinkage covariance estimation",
+  "feature_key": "glcm",
+  "input_dimensions": 5,
+  "training_samples": 591,
+  "training_morphed": 408,
+  "training_genuine": 183,
+  "training_duration_seconds": 0.022,
+  "artifact_path": "models/trained/lda.joblib",
+  "artifact_sha256": "dd44eb2d0466a0e167538d82994faaa7e264a0548f28b9d4a417cc6d2fd0cbd0",
+  "training_date": "2026-11-19T03:41:06Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "metrics": {
+    "evaluation_split": "test",
+    "eval_samples": 285,
+    "eval_morphed": 228,
+    "eval_genuine": 57,
+    "accuracy": 0.807,
+    "precision": 0.9529,
+    "recall": 0.7982,
+    "specificity": 0.8421,
+    "f1_score": 0.8687,
+    "apcer": 0.2018,
+    "bpcer": 0.1579,
+    "acer": 0.1798,
+    "roc_auc": 0.869,
+    "pr_auc": 0.9304,
+    "confusion_matrix": {
+      "tp": 182,
+      "fp": 9,
+      "tn": 48,
+      "fn": 46
+    }
+  }
+}

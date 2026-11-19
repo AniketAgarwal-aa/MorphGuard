@@ -50,6 +50,58 @@ def main():
             'artifact_path': None,
             'artifact_sha256': None,
             'metrics': {'status': 'Untrained - awaiting compute cluster'}
+        },
+        {
+            'model_name': 'mobilenet_v3_small',
+            'architecture': 'MobileNetV3-Small',
+            'framework': 'PyTorch',
+            'feature_key': 'raw_face_crop_224x224',
+            'input_dimensions': [3, 224, 224],
+            'training_status': 'ready_for_training',
+            'validation_status': 'pending_training',
+            'approval_status': 'experimental_prototype',
+            'artifact_path': None,
+            'artifact_sha256': None,
+            'metrics': {'status': 'Untrained - awaiting compute cluster'}
+        },
+        {
+            'model_name': 'densenet121',
+            'architecture': 'DenseNet-121',
+            'framework': 'PyTorch',
+            'feature_key': 'raw_face_crop_224x224',
+            'input_dimensions': [3, 224, 224],
+            'training_status': 'ready_for_training',
+            'validation_status': 'pending_training',
+            'approval_status': 'experimental_prototype',
+            'artifact_path': None,
+            'artifact_sha256': None,
+            'metrics': {'status': 'Untrained - awaiting compute cluster'}
+        },
+        {
+            'model_name': 'resnet34',
+            'architecture': 'ResNet-34',
+            'framework': 'PyTorch',
+            'feature_key': 'raw_face_crop_224x224',
+            'input_dimensions': [3, 224, 224],
+            'training_status': 'ready_for_training',
+            'validation_status': 'pending_training',
+            'approval_status': 'experimental_prototype',
+            'artifact_path': None,
+            'artifact_sha256': None,
+            'metrics': {'status': 'Untrained - awaiting compute cluster'}
+        },
+        {
+            'model_name': 'resnet50',
+            'architecture': 'ResNet-50',
+            'framework': 'PyTorch',
+            'feature_key': 'raw_face_crop_224x224',
+            'input_dimensions': [3, 224, 224],
+            'training_status': 'ready_for_training',
+            'validation_status': 'pending_training',
+            'approval_status': 'experimental_prototype',
+            'artifact_path': None,
+            'artifact_sha256': None,
+            'metrics': {'status': 'Untrained - awaiting compute cluster'}
         }
     ]
 

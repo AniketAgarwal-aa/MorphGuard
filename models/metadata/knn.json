@@ -1,0 +1,40 @@
+{
+  "model_name": "knn",
+  "architecture": "knn",
+  "framework": "scikit-learn",
+  "description": "k-Nearest Neighbors (k=5, distance-weighted) on GLCM texture metrics",
+  "feature_key": "glcm",
+  "input_dimensions": 5,
+  "training_samples": 591,
+  "training_morphed": 408,
+  "training_genuine": 183,
+  "training_duration_seconds": 0.007,
+  "artifact_path": "models/trained/knn.joblib",
+  "artifact_sha256": "e2cf98a5835a03f8b04b874b0b4a390c758783a9a4cfee2522036a9bb0e23005",
+  "training_date": "2026-11-19T03:41:06Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "metrics": {
+    "evaluation_split": "test",
+    "eval_samples": 285,
+    "eval_morphed": 228,
+    "eval_genuine": 57,
+    "accuracy": 0.4351,
+    "precision": 0.9136,
+    "recall": 0.3246,
+    "specificity": 0.8772,
+    "f1_score": 0.479,
+    "apcer": 0.6754,
+    "bpcer": 0.1228,
+    "acer": 0.3991,
+    "roc_auc": 0.6682,
+    "pr_auc": 0.8942,
+    "confusion_matrix": {
+      "tp": 74,
+      "fp": 7,
+      "tn": 50,
+      "fn": 154
+    }
+  }
+}

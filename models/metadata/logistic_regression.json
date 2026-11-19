@@ -1,0 +1,40 @@
+{
+  "model_name": "logistic_regression",
+  "architecture": "logistic_regression",
+  "framework": "scikit-learn",
+  "description": "L2-regularized Logistic Regression with standardized feature inputs",
+  "feature_key": "X",
+  "input_dimensions": 6103,
+  "training_samples": 591,
+  "training_morphed": 408,
+  "training_genuine": 183,
+  "training_duration_seconds": 0.37,
+  "artifact_path": "models/trained/logistic_regression.joblib",
+  "artifact_sha256": "e3dc99ae4b75e20b68dc91bb59e63437c8330b0d11fec98eb1da9426c8865a03",
+  "training_date": "2026-11-19T03:40:18Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "metrics": {
+    "evaluation_split": "test",
+    "eval_samples": 285,
+    "eval_morphed": 228,
+    "eval_genuine": 57,
+    "accuracy": 0.2526,
+    "precision": 1.0,
+    "recall": 0.0658,
+    "specificity": 1.0,
+    "f1_score": 0.1235,
+    "apcer": 0.9342,
+    "bpcer": 0.0,
+    "acer": 0.4671,
+    "roc_auc": 0.9769,
+    "pr_auc": 0.9912,
+    "confusion_matrix": {
+      "tp": 15,
+      "fp": 0,
+      "tn": 57,
+      "fn": 213
+    }
+  }
+}

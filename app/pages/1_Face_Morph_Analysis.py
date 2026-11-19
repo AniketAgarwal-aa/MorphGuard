@@ -29,7 +29,15 @@ def load_pipeline_model(name: str):
         job_path = ROOT / 'models' / 'trained' / name
         if job_path.exists():
             fkey = 'combined'
-            if 'glcm' in name:
+            meta_path = ROOT / 'models' / 'metadata' / f"{Path(name).stem}.json"
+            if meta_path.exists():
+                try:
+                    meta = json.loads(meta_path.read_text(encoding='utf-8'))
+                    fk = meta.get('feature_key', 'combined')
+                    fkey = 'combined' if fk == 'X' else fk
+                except Exception:
+                    pass
+            elif any(k in name for k in ('glcm', 'lda', 'knn', 'nb', 'ensemble')):
                 fkey = 'glcm'
             elif 'lbp' in name:
                 fkey = 'lbp'

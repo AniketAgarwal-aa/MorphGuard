@@ -1,0 +1,40 @@
+{
+  "model_name": "hist_gradient_boosting",
+  "architecture": "hist_gradient_boosting",
+  "framework": "scikit-learn",
+  "description": "Histogram-based Gradient Boosting on 6,103-dimensional feature space",
+  "feature_key": "X",
+  "input_dimensions": 6103,
+  "training_samples": 591,
+  "training_morphed": 408,
+  "training_genuine": 183,
+  "training_duration_seconds": 33.995,
+  "artifact_path": "models/trained/hist_gradient_boosting.joblib",
+  "artifact_sha256": "9d7558d62dadc1ebd24251f5cee1e253a7f62650389b8d7223ac427aece631fd",
+  "training_date": "2026-11-19T03:41:06Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "metrics": {
+    "evaluation_split": "test",
+    "eval_samples": 285,
+    "eval_morphed": 228,
+    "eval_genuine": 57,
+    "accuracy": 0.5158,
+    "precision": 1.0,
+    "recall": 0.3947,
+    "specificity": 1.0,
+    "f1_score": 0.566,
+    "apcer": 0.6053,
+    "bpcer": 0.0,
+    "acer": 0.3026,
+    "roc_auc": 0.9911,
+    "pr_auc": 0.9971,
+    "confusion_matrix": {
+      "tp": 90,
+      "fp": 0,
+      "tn": 57,
+      "fn": 138
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "model_name": "voting_ensemble",
+  "architecture": "voting_ensemble",
+  "framework": "scikit-learn",
+  "description": "Soft-Voting Ensemble combining Random Forest, LDA, and Gaussian Naive Bayes",
+  "feature_key": "glcm",
+  "input_dimensions": 5,
+  "training_samples": 591,
+  "training_morphed": 408,
+  "training_genuine": 183,
+  "training_duration_seconds": 0.231,
+  "artifact_path": "models/trained/voting_ensemble.joblib",
+  "artifact_sha256": "5ff29f33953d729eef2c61743fa004904561a5df42b879e2ccb514398dae0234",
+  "training_date": "2026-11-19T03:41:06Z",
+  "training_status": "trained",
+  "validation_status": "evaluated",
+  "approval_status": "approved_experimental_inference",
+  "metrics": {
+    "evaluation_split": "test",
+    "eval_samples": 285,
+    "eval_morphed": 228,
+    "eval_genuine": 57,
+    "accuracy": 0.5754,
+    "precision": 0.9421,
+    "recall": 0.5,
+    "specificity": 0.8772,
+    "f1_score": 0.6533,
+    "apcer": 0.5,
+    "bpcer": 0.1228,
+    "acer": 0.3114,
+    "roc_auc": 0.8688,
+    "pr_auc": 0.9364,
+    "confusion_matrix": {
+      "tp": 114,
+      "fp": 7,
+      "tn": 50,
+      "fn": 114
+    }
+  }
+}

@@ -93,11 +93,11 @@ with st.expander('▾ Detailed Category Shard Breakdown'):
     from collections import Counter
     cats = Counter()
     for p in all_paths:
-        parts = str(p).split('/')
+        parts = str(p).replace('\\', '/').split('/')
         if len(parts) >= 2:
             cats[f'{parts[0]}/{parts[1]}'] += 1
         else:
-            cats[str(p).split('/')[0]] += 1
+            cats[str(p).replace('\\', '/').split('/')[0]] += 1
 
     if cats:
         cat_df = pd.DataFrame(

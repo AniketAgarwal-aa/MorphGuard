@@ -11,6 +11,8 @@ data/review_pilot/
 data/test_exports/
 models/checkpoints/
 models/trained/
+models/hf_export/
+models/cache/
 *.pt
 *.joblib
 __pycache__/

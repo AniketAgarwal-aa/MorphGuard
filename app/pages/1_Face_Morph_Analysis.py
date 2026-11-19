@@ -17,6 +17,8 @@ from app.components import (
     metric_card, footer, get_accent_color
 )
 
+from src.morphguard.inference.hosted_models import resolve_model_artifact, ModelUnavailableError
+
 def load_pipeline_model(name: str):
     """Load model with proper feature adapter or deep PyTorch adapter and calibrated threshold."""
     if not name or name == 'No approved model available':
@@ -34,22 +36,23 @@ def load_pipeline_model(name: str):
         except Exception:
             pass
 
-    if name.endswith('.pt'):
-        pt_path = ROOT / 'models' / 'checkpoints' / name
-        if pt_path.exists():
-            return load_pytorch_model(pt_path, architecture='custom_cnn', threshold=thresh)
-    elif name.endswith('.joblib'):
-        job_path = ROOT / 'models' / 'trained' / name
-        if job_path.exists():
-            if not meta_path.exists():
-                if any(k in name for k in ('glcm', 'lda', 'knn', 'nb', 'ensemble')):
-                    fkey = 'glcm'
-                elif 'lbp' in name:
-                    fkey = 'lbp'
-                elif 'hog' in name:
-                    fkey = 'hog'
-            return load_joblib_model(job_path, feature_key=fkey, threshold=thresh)
-    return None
+    try:
+        resolved_path = resolve_model_artifact(name)
+    except Exception as exc:
+        st.sidebar.warning(f"Model artifact resolution note: {exc}")
+        return None
+
+    if name.endswith('.pt') or str(resolved_path).endswith('.pt'):
+        return load_pytorch_model(resolved_path, architecture='custom_cnn', threshold=thresh)
+    else:
+        if not meta_path.exists():
+            if any(k in name for k in ('glcm', 'lda', 'knn', 'nb', 'ensemble')):
+                fkey = 'glcm'
+            elif 'lbp' in name:
+                fkey = 'lbp'
+            elif 'hog' in name:
+                fkey = 'hog'
+        return load_joblib_model(resolved_path, feature_key=fkey, threshold=thresh)
 
 inject_css()
 page_header(
@@ -65,11 +68,55 @@ with st.sidebar:
 
     trained_dir = ROOT / 'models' / 'trained'
     checkpoints_dir = ROOT / 'models' / 'checkpoints'
-    model_options = ['No approved model available']
+    local_models = set()
     if trained_dir.exists():
-        model_options.extend([p.name for p in sorted(trained_dir.glob('*.joblib'))])
+        for p in trained_dir.glob('*.joblib'):
+            local_models.add(p.name)
     if checkpoints_dir.exists():
-        model_options.extend([p.name for p in sorted(checkpoints_dir.glob('*.pt'))])
+        for p in checkpoints_dir.glob('*.pt'):
+            local_models.add(p.name)
+
+    # Read registry for available cloud-hosted and local models
+    reg_path = ROOT / 'models' / 'metadata' / 'model_registry.json'
+    registry_models = []
+    if reg_path.exists():
+        try:
+            reg_data = json.loads(reg_path.read_text(encoding='utf-8'))
+            for m in reg_data.get('models', []):
+                art = m.get('artifact_path')
+                if art:
+                    art_name = Path(art).name
+                    if art_name not in registry_models:
+                        registry_models.append(art_name)
+        except Exception:
+            pass
+
+    preferred_order = [
+        'combined_svm.joblib',
+        'logistic_regression.joblib',
+        'hog_svm.joblib',
+        'hist_gradient_boosting.joblib',
+        'extra_trees.joblib',
+        'rf_combined.joblib',
+        'linear_svm.joblib',
+        'voting_ensemble.joblib',
+        'stacking_ensemble.joblib',
+        'custom_cnn.pt',
+        'lbp_svm.joblib',
+        'lda.joblib',
+        'glcm_rf.joblib',
+        'knn.joblib',
+        'gaussian_nb.joblib',
+    ]
+
+    available_set = local_models.union(registry_models)
+    model_options = [m for m in preferred_order if m in available_set]
+    for m in sorted(available_set):
+        if m not in model_options:
+            model_options.append(m)
+
+    if not model_options:
+        model_options = ['No approved model available']
 
     selected_model_name = st.selectbox(
         'Detection model',
@@ -563,10 +610,11 @@ with tab_compare:
             st.markdown('---')
             section_title(f'Experimental Model Classification ({selected_model_name})')
             try:
+                thresh_val = getattr(comp_model, 'threshold', 0.5)
                 score_a = float(comp_model.predict_score(crop_a))
                 score_b = float(comp_model.predict_score(crop_b))
-                state_a = "UNCERTAIN" if 0.40 <= score_a <= 0.60 else ("MORPHED / MORPHING ATTACK" if score_a > 0.5 else "GENUINE / BONA FIDE")
-                state_b = "UNCERTAIN" if 0.40 <= score_b <= 0.60 else ("MORPHED / MORPHING ATTACK" if score_b > 0.5 else "GENUINE / BONA FIDE")
+                state_a = "MORPHED / MORPHING ATTACK" if score_a >= thresh_val else "GENUINE / BONA FIDE"
+                state_b = "MORPHED / MORPHING ATTACK" if score_b >= thresh_val else "GENUINE / BONA FIDE"
 
                 mc_col1, mc_col2 = st.columns(2)
                 with mc_col1:

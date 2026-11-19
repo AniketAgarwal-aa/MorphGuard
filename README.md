@@ -2,6 +2,10 @@
 
 **MorphGuard V3.0** is an experimental biometric research platform for facial morph attack detection (MAD), multi-scale texture extraction, deep neural networks, and ensemble evaluation on the complete **MONOT and ONOT** biometric corpora (46,792 images).
 
+- **Live Cloud Deployment:** [DEPLOYMENT.md](DEPLOYMENT.md) & [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md)
+- **Biometric Model Card:** [MODEL_CARD.md](MODEL_CARD.md)
+- **Hugging Face Model Repository:** [`AniketAgarwal-aa/MorphGuard-Models`](https://huggingface.co/AniketAgarwal-aa/MorphGuard-Models)
+- **Version Changelog:** [CHANGELOG.md](CHANGELOG.md)
 - Comprehensive Final Completion Report: [docs/FINAL_COMPLETION_REPORT.md](docs/FINAL_COMPLETION_REPORT.md)
 - Completion Audit: [docs/FINAL_COMPLETION_AUDIT.md](docs/FINAL_COMPLETION_AUDIT.md)
 - System Architecture: [docs/PROJECT_ARCHITECTURE.md](docs/PROJECT_ARCHITECTURE.md)
@@ -9,7 +13,6 @@
 - Feature Engineering: [docs/FEATURE_ENGINEERING.md](docs/FEATURE_ENGINEERING.md)
 - Model Documentation: [docs/MODEL_DOCUMENTATION.md](docs/MODEL_DOCUMENTATION.md)
 - Experiment Methodology: [docs/EXPERIMENT_METHODOLOGY.md](docs/EXPERIMENT_METHODOLOGY.md)
-- Deployment Guide: [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md)
 - Privacy & Security: [docs/PRIVACY_AND_SECURITY.md](docs/PRIVACY_AND_SECURITY.md)
 - Known Limitations: [docs/KNOWN_LIMITATIONS.md](docs/KNOWN_LIMITATIONS.md)
 

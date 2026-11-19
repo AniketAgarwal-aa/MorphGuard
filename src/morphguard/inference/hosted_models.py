@@ -9,6 +9,13 @@ from pathlib import Path
 from typing import Optional
 
 ROOT = Path(__file__).parents[3]
+DEFAULT_HF_REPO = "AniketAgarwal-aa/MorphGuard-Models"
+
+SUBFOLDERS = {
+    'custom_cnn': 'deep_learning',
+    'stacking_ensemble': 'ensembles',
+    'voting_ensemble': 'ensembles',
+}
 
 class ModelUnavailableError(FileNotFoundError):
     """Raised when a requested model artifact is neither present locally nor retrievable remotely."""
@@ -34,79 +41,98 @@ def resolve_model_artifact(model_name: str, repo_id: Optional[str] = None, token
     """Resolve model artifact path, checking local files first, then remote repositories.
     
     Args:
-        model_name: Canonical model identifier (e.g. 'custom_cnn', 'lda', 'stacking_ensemble')
-        repo_id: Optional Hugging Face Hub repo id (e.g. 'MorphGuard/trained-models')
+        model_name: Canonical model identifier (e.g. 'custom_cnn', 'combined_svm', 'stacking_ensemble')
+        repo_id: Optional Hugging Face Hub repo id (defaults to 'AniketAgarwal-aa/MorphGuard-Models')
         token: Optional authentication token for private repositories
         
     Returns:
         Path to verified local artifact
     """
+    clean_name = Path(model_name).stem
+    is_pytorch = clean_name.startswith("custom_cnn") or model_name.endswith(".pt")
+    ext = ".pt" if is_pytorch else ".joblib"
+    filename = f"{clean_name}{ext}"
+
     # 1. Check local standard directories
     local_candidates = [
-        ROOT / 'models/trained' / f"{model_name}.joblib",
-        ROOT / 'models/checkpoints' / f"{model_name}.pt",
-        ROOT / 'models/trained' / f"{model_name}.pt",
-        ROOT / 'models/cache' / f"{model_name}.joblib",
-        ROOT / 'models/cache' / f"{model_name}.pt",
+        ROOT / 'models/trained' / filename,
+        ROOT / 'models/checkpoints' / filename,
+        ROOT / 'models/cache' / filename,
+        ROOT / 'models/hf_export' / filename,
+        ROOT / 'models/hf_export' / SUBFOLDERS.get(clean_name, 'classical') / filename,
     ]
     for cand in local_candidates:
         if cand.exists() and cand.stat().st_size > 0:
             return cand
 
     # Check metadata for expected artifact path
-    meta = get_model_metadata(model_name)
+    meta = get_model_metadata(clean_name)
     if meta and meta.get('artifact_path'):
         rel_p = ROOT / meta['artifact_path']
         if rel_p.exists() and rel_p.stat().st_size > 0:
             return rel_p
 
-    # 2. Check remote retrieval if Hugging Face Hub is configured
+    # 2. Check remote retrieval via Hugging Face Hub
     hub_repo = repo_id or os.environ.get('MORPHGUARD_MODEL_REPO') or os.environ.get('HF_REPO_ID')
-    hf_token = token or os.environ.get('HF_TOKEN')
+    hf_token = token or os.environ.get('HF_TOKEN') or os.environ.get('HUGGING_FACE_HUB_TOKEN')
     
     # Try importing Streamlit secrets if running inside Streamlit
-    if not hub_repo:
+    if not hub_repo or not hf_token:
         try:
             import streamlit as st
-            hub_repo = st.secrets.get("MORPHGUARD_MODEL_REPO") or st.secrets.get("HF_REPO_ID")
+            if not hub_repo:
+                hub_repo = st.secrets.get("MORPHGUARD_MODEL_REPO") or st.secrets.get("HF_REPO_ID")
             if not hf_token:
-                hf_token = st.secrets.get("HF_TOKEN")
+                hf_token = st.secrets.get("HF_TOKEN") or st.secrets.get("HUGGING_FACE_HUB_TOKEN")
         except Exception:
             pass
 
-    if hub_repo:
+    # Default to official MorphGuard repo if none specified
+    if not hub_repo:
+        hub_repo = DEFAULT_HF_REPO
+
+    cache_dir = ROOT / 'models/cache'
+    cache_dir.mkdir(parents=True, exist_ok=True)
+
+    try:
+        from huggingface_hub import hf_hub_download
+        downloaded = None
+
+        # Attempt download from subfolder first, then fallback to root
+        subfolder = SUBFOLDERS.get(clean_name, 'classical')
         try:
-            from huggingface_hub import hf_hub_download
-            filename = f"{model_name}.joblib" if not model_name.startswith("custom_cnn") else f"{model_name}.pt"
-            cache_dir = ROOT / 'models/cache'
-            cache_dir.mkdir(parents=True, exist_ok=True)
-            
+            downloaded = hf_hub_download(
+                repo_id=hub_repo,
+                filename=filename,
+                subfolder=subfolder,
+                token=hf_token,
+                local_dir=str(cache_dir)
+            )
+        except Exception:
+            # Fallback to root level in repo
             downloaded = hf_hub_download(
                 repo_id=hub_repo,
                 filename=filename,
                 token=hf_token,
                 local_dir=str(cache_dir)
             )
-            downloaded_path = Path(downloaded)
-            
-            # Verify SHA-256 if expected in metadata
+
+        downloaded_path = Path(downloaded)
+        if downloaded_path.exists() and downloaded_path.stat().st_size > 0:
+            # Verify SHA-256 checksum if present in metadata
             if meta and meta.get('artifact_sha256'):
                 actual_sha = compute_sha256(downloaded_path)
                 if actual_sha != meta['artifact_sha256']:
                     downloaded_path.unlink(missing_ok=True)
-                    raise ValueError(f"Checksum mismatch for {model_name}: expected {meta['artifact_sha256']}, got {actual_sha}")
-                    
+                    raise ValueError(f"Checksum mismatch for {clean_name}: expected {meta['artifact_sha256']}, got {actual_sha}")
             return downloaded_path
-        except Exception as exc:
-            raise ModelUnavailableError(
-                f"Model artifact '{model_name}' could not be downloaded from remote repository '{hub_repo}': {exc}"
-            ) from exc
+    except Exception as exc:
+        status_note = ""
+        if meta:
+            status_note = f" (Registry status: {meta.get('training_status', 'unknown')})"
+        raise ModelUnavailableError(
+            f"Model artifact '{filename}' could not be loaded locally or downloaded from Hugging Face repository '{hub_repo}'{status_note}. "
+            f"Details: {exc}. If the repository is private, ensure HF_TOKEN is configured in Streamlit Secrets or environment variables."
+        ) from exc
 
-    # 3. Model is not available locally or remotely
-    status_note = ""
-    if meta:
-        status_note = f" (Status in registry: {meta.get('training_status', 'unknown')})"
-    raise ModelUnavailableError(
-        f"Model artifact for '{model_name}' is not found locally and no remote repository is configured{status_note}. "
-        f"Ensure '{model_name}' has been trained locally or set MORPHGUARD_MODEL_REPO environment variable."
-    )
+    raise ModelUnavailableError(f"Model artifact '{filename}' unavailable.")

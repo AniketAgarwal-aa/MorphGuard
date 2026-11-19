@@ -8,18 +8,36 @@
   "training_samples": 591,
   "training_morphed": 408,
   "training_genuine": 183,
-  "training_duration_seconds": 0.022,
+  "training_duration_seconds": 0.041,
   "artifact_path": "models/trained/lda.joblib",
   "artifact_sha256": "dd44eb2d0466a0e167538d82994faaa7e264a0548f28b9d4a417cc6d2fd0cbd0",
-  "training_date": "2026-11-19T03:41:06Z",
+  "training_date": "2026-11-19T07:43:21Z",
   "training_status": "trained",
   "validation_status": "evaluated",
   "approval_status": "approved_experimental_inference",
+  "calibrated_threshold": 0.558,
+  "default_threshold": 0.5,
   "metrics": {
-    "evaluation_split": "test",
-    "eval_samples": 285,
-    "eval_morphed": 228,
-    "eval_genuine": 57,
+    "threshold": 0.558,
+    "accuracy": 0.7649,
+    "precision": 0.9548,
+    "recall": 0.7412,
+    "specificity": 0.8596,
+    "f1_score": 0.8346,
+    "apcer": 0.2588,
+    "bpcer": 0.1404,
+    "acer": 0.1996,
+    "confusion_matrix": {
+      "tp": 169,
+      "fp": 8,
+      "tn": 49,
+      "fn": 59
+    },
+    "roc_auc": 0.869,
+    "pr_auc": 0.9304
+  },
+  "uncalibrated_metrics": {
+    "threshold": 0.5,
     "accuracy": 0.807,
     "precision": 0.9529,
     "recall": 0.7982,
@@ -28,13 +46,30 @@
     "apcer": 0.2018,
     "bpcer": 0.1579,
     "acer": 0.1798,
-    "roc_auc": 0.869,
-    "pr_auc": 0.9304,
     "confusion_matrix": {
       "tp": 182,
       "fp": 9,
       "tn": 48,
       "fn": 46
+    },
+    "roc_auc": 0.869,
+    "pr_auc": 0.9304
+  },
+  "validation_metrics": {
+    "threshold": 0.558,
+    "accuracy": 0.9003,
+    "precision": 0.9567,
+    "recall": 0.9205,
+    "specificity": 0.807,
+    "f1_score": 0.9382,
+    "apcer": 0.0795,
+    "bpcer": 0.193,
+    "acer": 0.1363,
+    "confusion_matrix": {
+      "tp": 243,
+      "fp": 11,
+      "tn": 46,
+      "fn": 21
     }
   }
 }

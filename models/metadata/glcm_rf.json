@@ -8,18 +8,36 @@
   "training_samples": 591,
   "training_morphed": 408,
   "training_genuine": 183,
-  "training_duration_seconds": 0.267,
+  "training_duration_seconds": 0.349,
   "artifact_path": "models/trained/glcm_rf.joblib",
   "artifact_sha256": "9e877b1f8aacefea7b95ece896c660cf0a9f366f862508ba38b32fb54fbb7659",
-  "training_date": "2026-11-19T03:40:13Z",
+  "training_date": "2026-11-19T07:42:01Z",
   "training_status": "trained",
   "validation_status": "evaluated",
   "approval_status": "approved_experimental_inference",
+  "calibrated_threshold": 0.4196,
+  "default_threshold": 0.5,
   "metrics": {
-    "evaluation_split": "test",
-    "eval_samples": 285,
-    "eval_morphed": 228,
-    "eval_genuine": 57,
+    "threshold": 0.4196,
+    "accuracy": 0.5298,
+    "precision": 0.9608,
+    "recall": 0.4298,
+    "specificity": 0.9298,
+    "f1_score": 0.5939,
+    "apcer": 0.5702,
+    "bpcer": 0.0702,
+    "acer": 0.3202,
+    "confusion_matrix": {
+      "tp": 98,
+      "fp": 4,
+      "tn": 53,
+      "fn": 130
+    },
+    "roc_auc": 0.9058,
+    "pr_auc": 0.9644
+  },
+  "uncalibrated_metrics": {
+    "threshold": 0.5,
     "accuracy": 0.5158,
     "precision": 0.9592,
     "recall": 0.4123,
@@ -28,13 +46,30 @@
     "apcer": 0.5877,
     "bpcer": 0.0702,
     "acer": 0.3289,
-    "roc_auc": 0.9058,
-    "pr_auc": 0.9644,
     "confusion_matrix": {
       "tp": 94,
       "fp": 4,
       "tn": 53,
       "fn": 134
+    },
+    "roc_auc": 0.9058,
+    "pr_auc": 0.9644
+  },
+  "validation_metrics": {
+    "threshold": 0.4196,
+    "accuracy": 0.6791,
+    "precision": 0.9653,
+    "recall": 0.6326,
+    "specificity": 0.8947,
+    "f1_score": 0.7643,
+    "apcer": 0.3674,
+    "bpcer": 0.1053,
+    "acer": 0.2363,
+    "confusion_matrix": {
+      "tp": 167,
+      "fp": 6,
+      "tn": 51,
+      "fn": 97
     }
   }
 }

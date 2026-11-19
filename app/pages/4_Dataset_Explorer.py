@@ -150,7 +150,7 @@ if proc_summary.get('state') == 'available':
     cache_manifest = cache_dir / 'processing_manifest.csv'
     if cache_manifest.exists():
         try:
-            m_df = pd.read_csv(cache_manifest)
+            m_df = pd.read_csv(cache_manifest, low_memory=False)
             if not m_df.empty and 'dataset' in m_df.columns and 'category' in m_df.columns:
                 with st.expander('▾ View Cached Feature Strata Distribution'):
                     grp = m_df.groupby(['dataset', 'category']).size().reset_index(name='Cached Count')

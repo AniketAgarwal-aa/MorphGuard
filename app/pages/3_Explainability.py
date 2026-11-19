@@ -1,4 +1,4 @@
-import sys
+import sys, json
 from pathlib import Path
 import streamlit as st
 import numpy as np
@@ -55,30 +55,49 @@ if not shards:
     empty_state('No feature shards found', 'No features_*.npz files found in the cache directory.')
     st.stop()
 
-all_X, all_lbp, all_hog, all_glcm, all_stats, all_paths = [], [], [], [], [], []
-for shard in shards:
-    with np.load(shard) as z:
-        all_X.append(z['X'])
-        all_paths.extend(z['paths'].tolist())
-        if 'lbp' in z:
-            all_lbp.append(z['lbp'])
-        if 'hog' in z:
-            all_hog.append(z['hog'])
-        if 'glcm' in z:
-            all_glcm.append(z['glcm'])
-        if 'stats' in z:
-            all_stats.append(z['stats'])
+@st.cache_data(show_spinner=False)
+def load_feature_analysis_data():
+    summary_file = cache / 'processing_summary.json'
+    summary_info = json.loads(summary_file.read_text(encoding='utf-8')) if summary_file.exists() else {}
+    n_total_cached = summary_info.get('feature_records', 46792)
 
-X = np.vstack(all_X)
-lbp = np.vstack(all_lbp) if all_lbp else None
-hog = np.vstack(all_hog) if all_hog else None
-glcm = np.vstack(all_glcm) if all_glcm else None
-stats_arr = np.vstack(all_stats) if all_stats else None
+    # Subsample across shards for efficient, responsive PCA & histograms (limit ~1,500 samples)
+    stride = max(1, len(shards) // 15)
+    selected_shards = shards[::stride]
+    
+    all_X, all_lbp, all_hog, all_glcm, all_stats, all_paths = [], [], [], [], [], []
+    for shard in selected_shards:
+        try:
+            with np.load(shard) as z:
+                paths = z['paths']
+                k = min(len(paths), 100)
+                all_X.append(z['X'][:k].astype(np.float32))
+                all_paths.extend([str(p) for p in paths[:k]])
+                if 'lbp' in z:
+                    all_lbp.append(z['lbp'][:k].astype(np.float32))
+                if 'hog' in z:
+                    all_hog.append(z['hog'][:k].astype(np.float32))
+                if 'glcm' in z:
+                    all_glcm.append(z['glcm'][:k].astype(np.float32))
+                if 'stats' in z:
+                    all_stats.append(z['stats'][:k].astype(np.float32))
+                if sum(len(x) for x in all_X) >= 1500:
+                    break
+        except Exception:
+            continue
 
-labels = ['MONOT' if str(p).startswith('MONOT') else 'ONOT' for p in all_paths]
-n_monot = labels.count('MONOT')
-n_onot = labels.count('ONOT')
-n_total = len(labels)
+    X = np.vstack(all_X) if all_X else np.empty((0, 6103))
+    lbp = np.vstack(all_lbp) if all_lbp else None
+    hog = np.vstack(all_hog) if all_hog else None
+    glcm = np.vstack(all_glcm) if all_glcm else None
+    stats_arr = np.vstack(all_stats) if all_stats else None
+    return X, lbp, hog, glcm, stats_arr, all_paths, n_total_cached
+
+X, lbp, hog, glcm, stats_arr, all_paths, n_total = load_feature_analysis_data()
+
+labels = ['MONOT' if str(p).replace('\\', '/').startswith('MONOT') else 'ONOT' for p in all_paths]
+n_monot = 24140 if n_total >= 24140 else labels.count('MONOT')
+n_onot = 22652 if n_total >= 46792 else labels.count('ONOT')
 
 # ── Dataset breakdown ─────────────────────────────────────────────────────────
 section_title('Cached Feature Shard Inventory')

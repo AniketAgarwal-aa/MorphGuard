@@ -1,0 +1,13 @@
+dataset,category,split,status,verified_label,count,unique_subjects
+MONOT,Gate_10,test,approved,genuine,57,19
+MONOT,Gate_10,train,approved,genuine,159,53
+MONOT,Gate_10,validation,approved,genuine,57,19
+MONOT,Morphed,test,approved,morphed,228,4
+MONOT,Morphed,train,approved,morphed,408,8
+MONOT,Morphed,validation,approved,morphed,264,5
+ONOT,digital,train,approved,genuine,24,8
+MONOT,Gate_10,unassigned,unlabelled,none,2277,255
+MONOT,Gate_25,unassigned,unlabelled,none,6350,254
+MONOT,Morphed,unassigned,unlabelled,none,14340,234
+ONOT,digital,unassigned,unlabelled,none,11302,349
+ONOT,print-scan,unassigned,unlabelled,none,11326,349

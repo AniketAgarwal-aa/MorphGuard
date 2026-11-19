@@ -8,18 +8,36 @@
   "training_samples": 591,
   "training_morphed": 408,
   "training_genuine": 183,
-  "training_duration_seconds": 0.007,
+  "training_duration_seconds": 0.014,
   "artifact_path": "models/trained/knn.joblib",
-  "artifact_sha256": "e2cf98a5835a03f8b04b874b0b4a390c758783a9a4cfee2522036a9bb0e23005",
-  "training_date": "2026-11-19T03:41:06Z",
+  "artifact_sha256": "27b743888d758dd8b38b49fd35ec469f71ff223f0b8036e3567e8826a2d43bf3",
+  "training_date": "2026-11-19T07:43:21Z",
   "training_status": "trained",
   "validation_status": "evaluated",
   "approval_status": "approved_experimental_inference",
+  "calibrated_threshold": 0.5921,
+  "default_threshold": 0.5,
   "metrics": {
-    "evaluation_split": "test",
-    "eval_samples": 285,
-    "eval_morphed": 228,
-    "eval_genuine": 57,
+    "threshold": 0.5921,
+    "accuracy": 0.3754,
+    "precision": 0.931,
+    "recall": 0.2368,
+    "specificity": 0.9298,
+    "f1_score": 0.3776,
+    "apcer": 0.7632,
+    "bpcer": 0.0702,
+    "acer": 0.4167,
+    "confusion_matrix": {
+      "tp": 54,
+      "fp": 4,
+      "tn": 53,
+      "fn": 174
+    },
+    "roc_auc": 0.6682,
+    "pr_auc": 0.8942
+  },
+  "uncalibrated_metrics": {
+    "threshold": 0.5,
     "accuracy": 0.4351,
     "precision": 0.9136,
     "recall": 0.3246,
@@ -28,13 +46,30 @@
     "apcer": 0.6754,
     "bpcer": 0.1228,
     "acer": 0.3991,
-    "roc_auc": 0.6682,
-    "pr_auc": 0.8942,
     "confusion_matrix": {
       "tp": 74,
       "fp": 7,
       "tn": 50,
       "fn": 154
+    },
+    "roc_auc": 0.6682,
+    "pr_auc": 0.8942
+  },
+  "validation_metrics": {
+    "threshold": 0.5921,
+    "accuracy": 0.6854,
+    "precision": 0.9711,
+    "recall": 0.6364,
+    "specificity": 0.9123,
+    "f1_score": 0.7689,
+    "apcer": 0.3636,
+    "bpcer": 0.0877,
+    "acer": 0.2257,
+    "confusion_matrix": {
+      "tp": 168,
+      "fp": 5,
+      "tn": 52,
+      "fn": 96
     }
   }
 }

@@ -18,32 +18,37 @@ from app.components import (
 )
 
 def load_pipeline_model(name: str):
-    """Load model with proper feature adapter or deep PyTorch adapter."""
+    """Load model with proper feature adapter or deep PyTorch adapter and calibrated threshold."""
     if not name or name == 'No approved model available':
         return None
+    stem = Path(name).stem
+    meta_path = ROOT / 'models' / 'metadata' / f"{stem}.json"
+    thresh = 0.5
+    fkey = 'combined'
+    if meta_path.exists():
+        try:
+            meta = json.loads(meta_path.read_text(encoding='utf-8'))
+            fk = meta.get('feature_key', 'combined')
+            fkey = 'combined' if fk == 'X' else fk
+            thresh = float(meta.get('calibrated_threshold', 0.5))
+        except Exception:
+            pass
+
     if name.endswith('.pt'):
         pt_path = ROOT / 'models' / 'checkpoints' / name
         if pt_path.exists():
-            return load_pytorch_model(pt_path, architecture='custom_cnn')
+            return load_pytorch_model(pt_path, architecture='custom_cnn', threshold=thresh)
     elif name.endswith('.joblib'):
         job_path = ROOT / 'models' / 'trained' / name
         if job_path.exists():
-            fkey = 'combined'
-            meta_path = ROOT / 'models' / 'metadata' / f"{Path(name).stem}.json"
-            if meta_path.exists():
-                try:
-                    meta = json.loads(meta_path.read_text(encoding='utf-8'))
-                    fk = meta.get('feature_key', 'combined')
-                    fkey = 'combined' if fk == 'X' else fk
-                except Exception:
-                    pass
-            elif any(k in name for k in ('glcm', 'lda', 'knn', 'nb', 'ensemble')):
-                fkey = 'glcm'
-            elif 'lbp' in name:
-                fkey = 'lbp'
-            elif 'hog' in name:
-                fkey = 'hog'
-            return load_joblib_model(job_path, feature_key=fkey)
+            if not meta_path.exists():
+                if any(k in name for k in ('glcm', 'lda', 'knn', 'nb', 'ensemble')):
+                    fkey = 'glcm'
+                elif 'lbp' in name:
+                    fkey = 'lbp'
+                elif 'hog' in name:
+                    fkey = 'hog'
+            return load_joblib_model(job_path, feature_key=fkey, threshold=thresh)
     return None
 
 inject_css()

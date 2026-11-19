@@ -11,15 +11,33 @@
   "training_duration_seconds": 0.231,
   "artifact_path": "models/trained/voting_ensemble.joblib",
   "artifact_sha256": "5ff29f33953d729eef2c61743fa004904561a5df42b879e2ccb514398dae0234",
-  "training_date": "2026-11-19T03:41:06Z",
+  "training_date": "2026-11-19T07:43:22Z",
   "training_status": "trained",
   "validation_status": "evaluated",
   "approval_status": "approved_experimental_inference",
+  "calibrated_threshold": 0.1631,
+  "default_threshold": 0.5,
   "metrics": {
-    "evaluation_split": "test",
-    "eval_samples": 285,
-    "eval_morphed": 228,
-    "eval_genuine": 57,
+    "threshold": 0.1631,
+    "accuracy": 0.8912,
+    "precision": 0.9417,
+    "recall": 0.9211,
+    "specificity": 0.7719,
+    "f1_score": 0.9313,
+    "apcer": 0.0789,
+    "bpcer": 0.2281,
+    "acer": 0.1535,
+    "confusion_matrix": {
+      "tp": 210,
+      "fp": 13,
+      "tn": 44,
+      "fn": 18
+    },
+    "roc_auc": 0.8688,
+    "pr_auc": 0.9364
+  },
+  "uncalibrated_metrics": {
+    "threshold": 0.5,
     "accuracy": 0.5754,
     "precision": 0.9421,
     "recall": 0.5,
@@ -28,13 +46,30 @@
     "apcer": 0.5,
     "bpcer": 0.1228,
     "acer": 0.3114,
-    "roc_auc": 0.8688,
-    "pr_auc": 0.9364,
     "confusion_matrix": {
       "tp": 114,
       "fp": 7,
       "tn": 50,
       "fn": 114
+    },
+    "roc_auc": 0.8688,
+    "pr_auc": 0.9364
+  },
+  "validation_metrics": {
+    "threshold": 0.1631,
+    "accuracy": 0.9159,
+    "precision": 0.9309,
+    "recall": 0.9697,
+    "specificity": 0.6667,
+    "f1_score": 0.9499,
+    "apcer": 0.0303,
+    "bpcer": 0.3333,
+    "acer": 0.1818,
+    "confusion_matrix": {
+      "tp": 256,
+      "fp": 19,
+      "tn": 38,
+      "fn": 8
     }
   }
 }

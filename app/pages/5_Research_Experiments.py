@@ -131,33 +131,41 @@ if shards:
     try:
         import numpy as np
 
-        all_paths = []
         shard_rows = []
+        total = 0
+        n_monot = 0
+        n_onot = 0
+        
+        # Fast metadata scan without decompressing 6,103D matrices
         for shard in shards:
-            with np.load(shard) as z:
-                n = z['X'].shape[0]
-                dims = z['X'].shape[1]
-                paths_in_shard = z['paths'].tolist()
-                all_paths.extend(paths_in_shard)
-                monot_n = sum(1 for p in paths_in_shard if str(p).startswith('MONOT'))
-                onot_n = n - monot_n
-                shard_rows.append({
-                    'Shard': shard.name,
-                    'Samples': n,
-                    'Feature dims': dims,
-                    'MONOT': monot_n,
-                    'ONOT': onot_n,
-                    'Size (KB)': f'{shard.stat().st_size / 1024:.0f}',
-                })
+            size_kb = f'{shard.stat().st_size / 1024:.0f}'
+            try:
+                with np.load(shard) as z:
+                    paths_in_shard = z['paths']
+                    n = len(paths_in_shard)
+                    dims = 6103
+                    m_cnt = sum(1 for p in paths_in_shard if str(p).replace('\\', '/').startswith('MONOT'))
+                    o_cnt = n - m_cnt
+                    total += n
+                    n_monot += m_cnt
+                    n_onot += o_cnt
+                    shard_rows.append({
+                        'Shard': shard.name,
+                        'Samples': n,
+                        'Feature dims': dims,
+                        'MONOT': m_cnt,
+                        'ONOT': o_cnt,
+                        'Size (KB)': size_kb,
+                    })
+            except Exception:
+                continue
 
         st.dataframe(shard_rows, use_container_width=True, hide_index=True)
 
-        total = len(all_paths)
-        n_monot = sum(1 for p in all_paths if str(p).startswith('MONOT'))
-        n_onot = total - n_monot
         c1, c2, c3 = st.columns(3)
         c1.metric('Total cached samples', total)
         c2.metric('MONOT', n_monot)
+        c3.metric('ONOT', n_onot)
         c3.metric('ONOT', n_onot)
 
     except Exception as exc:

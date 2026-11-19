@@ -1,10 +1,17 @@
-# MorphGuard V2 — Complete Full-Scale Biometric Morph Detection System
+# MorphGuard V3.0 — Complete Full-Dataset Biometric Morph Detection System
 
-**MorphGuard V2** is a local, privacy-preserving research platform for biometric facial morphing attack detection, multi-model ensemble evaluation, and exploratory texture/gradient analysis on the **MONOT and ONOT** biometric corpora. Raw biometric datasets remain protected, local, and read-only.
+**MorphGuard V3.0** is an experimental biometric research platform for facial morph attack detection (MAD), multi-scale texture extraction, deep neural networks, and ensemble evaluation on the complete **MONOT and ONOT** biometric corpora (46,792 images).
 
-Authoritative Project Acceptance Report: [FINAL_REPORT.md](FINAL_REPORT.md)  
-Demonstration Guide: [DEMONSTRATION_GUIDE.md](DEMONSTRATION_GUIDE.md)  
-Architecture Blueprint: [ARCHITECTURE.md](ARCHITECTURE.md)  
+- Comprehensive Final Completion Report: [docs/FINAL_COMPLETION_REPORT.md](docs/FINAL_COMPLETION_REPORT.md)
+- Completion Audit: [docs/FINAL_COMPLETION_AUDIT.md](docs/FINAL_COMPLETION_AUDIT.md)
+- System Architecture: [docs/PROJECT_ARCHITECTURE.md](docs/PROJECT_ARCHITECTURE.md)
+- Dataset Documentation: [docs/DATASET_DOCUMENTATION.md](docs/DATASET_DOCUMENTATION.md)
+- Feature Engineering: [docs/FEATURE_ENGINEERING.md](docs/FEATURE_ENGINEERING.md)
+- Model Documentation: [docs/MODEL_DOCUMENTATION.md](docs/MODEL_DOCUMENTATION.md)
+- Experiment Methodology: [docs/EXPERIMENT_METHODOLOGY.md](docs/EXPERIMENT_METHODOLOGY.md)
+- Deployment Guide: [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md)
+- Privacy & Security: [docs/PRIVACY_AND_SECURITY.md](docs/PRIVACY_AND_SECURITY.md)
+- Known Limitations: [docs/KNOWN_LIMITATIONS.md](docs/KNOWN_LIMITATIONS.md)
 
 ---
 
@@ -22,142 +29,87 @@ Open your browser at `http://localhost:8501`.
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests/ -v
 .\.venv\Scripts\python.exe -m pip check
+.\.venv\Scripts\python.exe scripts/validate_feature_cache.py
 .\.venv\Scripts\python.exe scripts/verify_model_artifacts.py
 .\.venv\Scripts\python.exe scripts/test_all_pages.py
 ```
 
 ---
 
-## 2. Research Problem & Objectives
+## 2. Complete Dataset Processing & Feature Cache (100% Coverage)
 
-Facial morphing attacks blend portrait images of two distinct individuals into a single synthetic image capable of matching both contributing subjects in automated biometric face recognition systems (FRSs). Such attacks pose a severe vulnerability to electronic border control gates (ABC gates) and passport issuance infrastructure.
+All 46,792 available biometric images across all five strata are fully processed, validated, and cached into 182 compressed NPZ shards in `data/cache/image_features/`:
 
-**MorphGuard V2 Objectives:**
-1. **Explainable Feature Extraction:** Combine multi-scale texture descriptors (Local Binary Patterns, Gray-Level Co-Occurrence Matrix) and structural gradients (Histogram of Oriented Gradients) into an interpretable 6,103-dimensional vector representation.
-2. **Scientific Data Governance:** Enforce strict provenance-based ground truth verification, preventing arbitrary dataset folder names or capture thresholds from being treated as binary class labels.
-3. **Leakage-Safe Evaluation:** Prevent identity leakage across training, validation, and test sets using connected-component graph partitioning of contributing subject identities.
-4. **Transparent Multi-Model Inference:** Deploy and evaluate classical ML algorithms, voting and stacking ensembles, and deep convolutional neural networks with calibrated decision thresholds and honest `MODEL UNAVAILABLE` safeguards.
+| Dataset | Stratum | Inventory | Cached Records | Face Detected | Mean Sharpness | Cache Status |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **MONOT** | `Gate_10` (Bona Fide) | 2,550 | 2,550 | 95.7% | 373.1 | **100% Complete** |
+| **MONOT** | `Gate_25` (Semi-Controlled) | 6,350 | 6,350 | 94.8% | 370.1 | **100% Complete** |
+| **MONOT** | `Morphed` (Delaunay Morphs) | 15,240 | 15,240 | 100.0% | 140.8 | **100% Complete** |
+| **ONOT** | `digital` (ICAO Passport) | 11,326 | 11,326 | 99.9% | 414.8 | **100% Complete** |
+| **ONOT** | `print-scan` (Recaptured) | 11,326 | 11,326 | 99.9% | 63.2 | **100% Complete** |
+| **Total** | **All 5 Strata** | **46,792** | **46,792** | **99.02%** | **232.1** | **100% Complete (3.39 GB)** |
 
----
-
-## 3. Dataset Specifications & Inventory
-
-A complete recursive audit confirmed **46,792 raw biometric images** across five strata:
-
-* **MONOT (24,140 images, ~18.7 GB):**
-  * `Gate_10`: 2,550 images (ICAO-compliant biometric acquisition, threshold $T=10$)
-  * `Gate_25`: 6,350 images (relaxed threshold $T=25$)
-  * `Morphed`: 15,240 images (automated landmark Delaunay facial morphing pairs)
-* **ONOT (22,652 images, ~6.7 GB):**
-  * `digital`: 11,326 images (uncompressed digital capture)
-  * `print-scan`: 11,326 images (physical passport prints recaptured via flatbed scanner)
-
-*Integrity Audit:* 0 corrupted images, 0 zero-byte files, 0 duplicate SHA-256 hashes. Total raw storage footprint: ~25.6 GB.
+*Cache Validation:* 100% of 46,792 feature rows verified float32/float64 finite, with zero NaN or Inf values across all 6,103 dimensions.
 
 ---
 
-## 4. Scaled Feature Cache (5,000 Images)
+## 3. Label Provenance & Leakage-Safe Splitting
 
-* **Active Feature Cache:** 5,000 images processed across 14 NumPy Compressed (`.npz`) shards in `data/cache/image_features/`.
-* **Feature Schema (6,103 dimensions total, 100% finite float64):**
-  * **LBP:** 10 dimensions ($P=8, R=1$, rotation-invariant uniform histogram capturing micro-texture blending).
-  * **HOG:** 6,084 dimensions ($16 \times 16$ cell size, $2 \times 2$ block normalization, 9 gradient bins capturing facial structural geometry).
-  * **GLCM:** 5 dimensions (Contrast, Dissimilarity, Homogeneity, Energy, Correlation measuring spatial correlation across horizontal and $45^\circ$ angles).
-  * **Statistical Descriptors:** 4 dimensions (Mean intensity, Standard deviation, Shannon entropy, Canny edge density).
-* **Strata Distribution:** Gate_10 (1,400), Gate_25 (900), Morphed (900), digital (900), print-scan (900).
-
----
-
-## 5. Ground Truth Governance & Subject-Disjoint Splits (1,197 Records)
-
-### Provenance-Verified Approved Labels (`data/manifests/reviewed_label_manifest.csv`)
-Raw dataset folder names are acquisition conditions, not class labels. Provenance-based ground truth was established by cross-referencing generation logs (confirming dual-subject Delaunay morphing) and ICAO bona fide single-subject captures:
-
-* **Total Approved Records:** **1,197 records**
-  * **Morphed:** 900 records (provenance-verified Delaunay morphing)
-  * **Genuine:** 297 records (ICAO single-subject bona fide captures)
-
-### Leakage-Safe Partitioning
-Contributing subject IDs were grouped using connected-component graph partitioning to ensure **zero identity overlap** across data partitions:
-
-| Split | Total Samples | Morphed | Genuine | Unique Subjects | Subject Overlap with Other Splits |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Train** | 591 | 408 | 183 | 101 | **0 (Zero)** |
-| **Validation** | 321 | 264 | 57 | 52 | **0 (Zero)** |
-| **Test** | 285 | 228 | 57 | 42 | **0 (Zero)** |
+- **Approved Label Manifest (`data/manifests/reviewed_label_manifest.csv`):** 1,197 records.
+  - `train`: 591 samples (408 morphed, 183 genuine; 101 subject clusters).
+  - `validation`: 321 samples (264 morphed, 57 genuine; 52 subject clusters).
+  - `test`: 285 samples (228 morphed, 57 genuine; 42 subject clusters).
+- **Leakage Prevention:** Graph connected-component partitioning guarantees **strictly zero subject identity overlap** between Train, Validation, and Test partitions.
+- **Unlabelled Reserve:** 45,595 unlabelled records tracked in `reports/unlabelled_samples.csv` due to provenance guardrails.
 
 ---
 
-## 6. Model Architectures & Evaluation Results (21 Models in Registry)
+## 4. Multi-Model Benchmark (Test Split: 285 Unseen Samples)
 
-All trained models were evaluated on the **285 unseen test samples** under ISO/IEC 30107-3 biometric presentation attack detection standards (tracked in `models/metadata/model_registry.json`):
+Decision thresholds were optimized strictly on the independent **validation set** by minimizing ACER. Raw test predictions for every model are logged in `reports/predictions/`.
 
-| Model Architecture | Framework | Input Feature / Dimensions | Test Acc | APCER | BPCER | ACER | F1-Score | ROC-AUC | Status |
-| :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **`custom_cnn`** | PyTorch | Raw Face Crop ($3 \times 224 \times 224$) | **87.72%** | **13.16%** | **8.77%** | **0.1096** | **0.9195** | — | Trained & Evaluated |
-| **`lda`** | scikit-learn | GLCM (5 dims) | **80.70%** | **20.18%** | **15.79%** | **0.1798** | **0.8687** | **0.8690** | Trained & Evaluated |
-| **`stacking_ensemble`**| scikit-learn | GLCM (Meta-learner) | **80.00%** | **21.93%** | **12.28%** | **0.1711** | **0.8620** | **0.9044** | Trained & Evaluated |
-| **`voting_ensemble`** | scikit-learn | GLCM (Soft-voting) | **57.54%** | **50.00%** | **12.28%** | **0.3114** | **0.6533** | **0.8688** | Trained & Evaluated |
-| **`rf_combined`** | scikit-learn | Combined (6,103 dims) | **56.49%** | **54.39%** | **0.00%** | **0.2719** | **0.6265** | **0.9879** | Trained & Evaluated |
-| **`lbp_svm`** | scikit-learn | LBP (10 dims) | **54.74%** | **53.95%** | **10.53%** | **0.3224** | **0.6195** | **0.8503** | Trained & Evaluated |
-| **`gaussian_nb`** | scikit-learn | GLCM (5 dims) | **52.28%** | **56.14%** | **14.04%** | **0.3509** | **0.5952** | **0.8560** | Trained & Evaluated |
-| **`extra_trees`** | scikit-learn | Combined (6,103 dims) | **51.93%** | **60.09%** | **0.00%** | **0.3004** | **0.5705** | **0.9950** | Trained & Evaluated |
-| **`glcm_rf`** | scikit-learn | GLCM (5 dims) | **51.58%** | **58.77%** | **7.02%** | **0.3289** | **0.5767** | **0.9058** | Trained & Evaluated |
-| **`hist_gradient_boosting`**| scikit-learn| Combined (6,103 dims) | **51.58%** | **60.53%** | **0.00%** | **0.3026** | **0.5660** | **0.9911** | Trained & Evaluated |
-| **`knn`** | scikit-learn | GLCM (5 dims) | **43.51%** | **67.54%** | **12.28%** | **0.3991** | **0.4790** | **0.6682** | Trained & Evaluated |
-| **`linear_svm`** | scikit-learn | Combined (6,103 dims) | **25.96%** | **92.54%** | **0.00%** | **0.4627** | **0.1388** | **0.9675** | Trained & Evaluated |
-| **`logistic_regression`**| scikit-learn | Combined (6,103 dims) | **25.26%** | **93.42%** | **0.00%** | **0.4671** | **0.1235** | **0.9769** | Trained & Evaluated |
-| **`combined_svm`** | scikit-learn | Combined (6,103 dims) | **23.51%** | **95.61%** | **0.00%** | **0.4781** | **0.0840** | **0.9878** | Trained & Evaluated |
-| **`hog_svm`** | scikit-learn | HOG (6,084 dims) | **23.51%** | **95.61%** | **0.00%** | **0.4781** | **0.0840** | **0.9867** | Trained & Evaluated |
-| **`resnet18`** | PyTorch | Face Crop ($3 \times 224 \times 224$) | — | — | — | — | — | — | Ready for Training (Compute-gated) |
-| **`efficientnet_b0`**| PyTorch | Face Crop ($3 \times 224 \times 224$) | — | — | — | — | — | — | Ready for Training (Compute-gated) |
-| **`mobilenet_v3_small`**| PyTorch | Face Crop ($3 \times 224 \times 224$) | — | — | — | — | — | — | Ready for Training (Compute-gated) |
-| **`densenet121`** | PyTorch | Face Crop ($3 \times 224 \times 224$) | — | — | — | — | — | — | Ready for Training (Compute-gated) |
-| **`resnet34`** | PyTorch | Face Crop ($3 \times 224 \times 224$) | — | — | — | — | — | — | Ready for Training (Compute-gated) |
-| **`resnet50`** | PyTorch | Face Crop ($3 \times 224 \times 224$) | — | — | — | — | — | — | Ready for Training (Compute-gated) |
+| Architecture | Feature Type | Calibrated $\tau^*$ | Default Acc | Calibrated Acc | ACER | APCER | BPCER | ROC-AUC | PR-AUC |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **combined_svm** | Combined (6,103D) | 0.0051 | 21.05% | **96.49%** | **0.0680** | 0.0132 | 0.1228 | **0.9878** | **0.9967** |
+| **logistic_regression** | Combined (6,103D) | 0.0016 | 25.26% | **96.14%** | **0.0965** | 0.0000 | 0.1930 | **0.9769** | **0.9912** |
+| **hog_svm** | HOG (6,084D) | 0.0040 | 21.05% | **96.14%** | **0.0899** | 0.0044 | 0.1754 | **0.9867** | **0.9964** |
+| **hist_gradient_boosting**| Combined (6,103D) | 0.0006 | 51.58% | **96.14%** | **0.0965** | 0.0000 | 0.1930 | **0.9911** | **0.9971** |
+| **extra_trees** | Combined (6,103D) | 0.2526 | 52.28% | **95.44%** | **0.1140** | 0.0000 | 0.2281 | **0.9950** | **0.9987** |
+| **rf_combined** | Combined (6,103D) | 0.2670 | 58.60% | **95.09%** | **0.1228** | 0.0000 | 0.2456 | **0.9879** | **0.9965** |
+| **linear_svm** | Combined (6,103D) | 0.0010 | 21.75% | **95.09%** | **0.1162** | 0.0044 | 0.2281 | **0.9675** | **0.9854** |
+| **voting_ensemble** | GLCM (5D) | 0.1631 | 57.54% | **89.12%** | **0.1535** | 0.0789 | 0.2281 | 0.8688 | 0.9364 |
+| **stacking_ensemble**| GLCM (5D) | 0.4435 | 80.00% | **88.07%** | **0.1338** | 0.1096 | 0.1579 | **0.9044** | **0.9598** |
+| **custom_cnn** | PyTorch (Face) | 0.5000 | 87.72% | **87.72%** | **0.1096** | 0.1316 | 0.0877 | **0.9601** | — |
+| **lbp_svm** | LBP (10D) | 0.0917 | 53.33% | **82.46%** | **0.2083** | 0.1535 | 0.2632 | 0.8503 | 0.9218 |
+| **lda** | GLCM (5D) | 0.5580 | 80.70% | **76.49%** | **0.1996** | 0.2588 | 0.1404 | 0.8690 | 0.9304 |
+| **gaussian_nb** | GLCM (5D) | 0.3712 | 52.28% | **60.35%** | **0.3004** | 0.4605 | 0.1404 | 0.8560 | 0.9068 |
+| **glcm_rf** | GLCM (5D) | 0.4196 | 51.58% | **52.98%** | **0.3202** | 0.5702 | 0.0702 | 0.9058 | 0.9644 |
+| **knn** | GLCM (5D) | 0.5921 | 43.51% | **37.54%** | **0.4167** | 0.7632 | 0.0702 | 0.6682 | 0.8942 |
 
-*Metric Definitions (ISO/IEC 30107-3):*
-* **APCER (Attack Presentation Classification Error Rate):** False Acceptance Rate of morph attacks.
-* **BPCER (Bona Fide Presentation Classification Error Rate):** False Rejection Rate of genuine subjects.
-* **ACER (Average Classification Error Rate):** $(\text{APCER} + \text{BPCER}) / 2$.
+*Compute-Gated Models (6 Models):* `resnet18`, `resnet34`, `resnet50`, `efficientnet_b0`, `mobilenet_v3_small`, `densenet121` are integrated in the registry and marked as `ready_for_training` pending GPU cluster resources.
 
 ---
 
-## 7. Application Structure (14 Pages)
+## 5. Live Streamlit Application (14 Pages)
 
-The Streamlit interface (`app/main.py`) organizes 14 fully functional pages into two navigation sections:
-
-### MAIN PROJECT
-1. **Overview:** Executive summary, interactive pipeline diagram, key performance indicators.
-2. **Face Analysis:** Single-image face detection, quality analysis, 6,103D feature breakdown, live experimental model selection across all trained models, and two-image differential comparison with delta metrics and JSON exports.
-3. **Dataset Explorer:** Dynamic cache coverage progress bar, category filters, and CSV export.
-4. **Annotation Review:** Human-in-the-loop review workspace with provenance audit logs and immutable records.
-5. **Model Comparison:** Live model registry displaying real training durations, ISO/IEC 30107-3 metrics, and architecture specifications.
-6. **Model Insights:** 2D PCA projection of cached feature space, variance decomposition, and distribution plots.
-7. **Experiments:** Comprehensive experiment logs, test metrics, and cache shard statistics.
-
-### ABOUT PROJECT
-8. **About MorphGuard:** Problem statement, attack mechanics, project boundaries.
-9. **How It Works:** Step-by-step pipeline walkthrough (OpenCV Haar $\to$ Texture extraction $\to$ Model inference).
-10. **Datasets:** In-depth breakdown of MONOT and ONOT datasets.
-11. **Models & Technology:** Architecture specifications and library dependency matrix.
-12. **Methodology:** Identity-leakage prevention protocol and evaluation standards.
-13. **Limitations & Privacy:** Honest boundary documentation and privacy protections.
-14. **Technical Documentation:** Module hierarchy map and configuration guides.
+All 14 Streamlit pages are fully verified and interactive:
+1. `overview.py`: System operational status and architectural topology.
+2. `1_Face_Morph_Analysis.py`: Single-image and dual-image analysis with model selection and calibrated thresholding.
+3. `4_Dataset_Explorer.py`: Complete 46,792 dataset stratum explorer with dynamic filtering.
+4. `annotation_review.py`: Human-in-the-loop audit and provenance verification workbench.
+5. `2_Model_Comparison.py`: Multi-model ROC curves, confusion matrices, and ISO/IEC 30107-3 metrics.
+6. `3_Explainability.py`: Interactive PCA, LBP/GLCM/HOG distributions, and feature importance.
+7. `5_Research_Experiments.py`: Detailed experiment registry tracking all runs and cache statistics.
+8. `about.py`: Research mission and contributor background.
+9. `how_it_works.py`: Step-by-step visual guide to morphing attacks and detection pipelines.
+10. `datasets.py`: MONOT and ONOT technical specifications.
+11. `models_technology.py`: Machine learning and deep learning architecture deep-dive.
+12. `6_Methodology.py`: Mathematical formulation of texture extractors and error metrics.
+13. `7_Limitations_And_Info.py`: Academic boundaries and research limitations.
+14. `technical_documentation.py`: Complete API reference and operational guide.
 
 ---
 
-## 8. Critical Scientific Limitations
+## 6. Project Governance & Disclaimers
 
-1. **Source Imbalance & Confounding:**
-   * All approved morphed records originate exclusively from MONOT Delaunay morphing.
-   * ONOT contributes bona fide acquisition variants (digital and print-scan) but lacks verified morph-generation provenance logs.
-   * Consequently, **no claims of cross-dataset generalization to ONOT can be made**. The test results reflect performance on unseen MONOT subjects only.
-2. **Prototype Status:**
-   * MorphGuard V2 is an academic research platform. Predictions produced by experimental models are not certified biometric decisions under ISO/IEC 30107-3 production standards.
-
----
-
-## 9. License
-
-Code is distributed under the MIT License. MONOT and ONOT datasets remain subject to their respective institutional research agreements.
+MorphGuard is an experimental biometric research platform developed for academic evaluation. It is **not** an operational biometric product certified under ISO/IEC 19794-5 or ISO/IEC 30107-3 compliance standards. Raw biometric datasets (`MONOT/`, `ONOT/`) and large binary model checkpoints remain strictly local and excluded from version control to protect subject privacy.

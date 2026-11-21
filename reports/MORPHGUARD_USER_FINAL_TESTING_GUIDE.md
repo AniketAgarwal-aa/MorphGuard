@@ -21,12 +21,12 @@ Follow these concrete steps to test the application:
 ### Step 1: Open the Application & Check Sidebar Navigation
 1. Navigate to [https://morphguard.streamlit.app/](https://morphguard.streamlit.app/) in your browser.
 2. Verify the 6 sidebar navigation categories and 14 functional pages are rendered:
-   - **Detection & Verification:** `Face Morph Analysis`, `Executive Dashboard`.
-   - **Biometric Data & Provenance:** `Dataset Explorer`, `Annotation Review Workbench`, `Dataset Technical Specs`.
-   - **Benchmarking & Evaluation:** `Multi-Model Comparison`, `Research Experiments`, `Model Architecture Deep-Dive`.
-   - **Interpretability & Explainability:** `Feature Space Explorer`.
-   - **Documentation & Scientific Standards:** `Methodology & Formulas`, `Technical API Docs`, `How It Works Guide`.
-   - **Governance & Limitations:** `Limitations & Disclaimers`, `Research Mission & About`.
+   - **OVERVIEW:** `Executive Dashboard`, `About MorphGuard`.
+   - **ANALYSIS:** `Face Morph Analysis`.
+   - **MODELS & BENCHMARKS:** `Model Benchmark`, `Model Insights`, `Research Experiments`.
+   - **DATA & METHODOLOGY:** `Dataset Explorer`, `Detection Methodology`, `System Architecture`.
+   - **DOCUMENTATION:** `Technology Deep Dive`, `Technical Documentation`, `Limitations & Privacy`.
+   - **GOVERNANCE & REVIEW:** `Annotation Review`, `Dataset Governance`.
 
 ### Step 2: Test Single-Image Morph Detection
 1. Click **Face Morph Analysis** (`1_Face_Morph_Analysis.py`) in the sidebar.

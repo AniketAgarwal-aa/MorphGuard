@@ -17,7 +17,7 @@ from app.components import (
     metric_card, footer, get_accent_color
 )
 
-from src.morphguard.inference.hosted_models import resolve_model_artifact, ModelUnavailableError
+from morphguard.inference.hosted_models import resolve_model_artifact, ModelUnavailableError
 
 def load_pipeline_model(name: str):
     """Load model with proper feature adapter or deep PyTorch adapter and calibrated threshold."""

@@ -28,7 +28,7 @@ MorphGuard V3.2 is an end-to-end biometric research platform for **Facial Morph 
 | **Live App** | Streamlit Community Cloud | `https://morphguard.streamlit.app/` | **DEPLOYED & VERIFIED** |
 | **Model Count** | 21 Serialized Artifacts | 14 Classical / 7 Deep PyTorch Models | **VERIFIED (21/21)** |
 | **Calibration** | Top Performer Threshold | Combined SVM $\tau^* = 0.0051$ (96.49% Acc, 0.0680 ACER) | **CANONICAL** |
-| **Test Suite** | PyTest Core Unit Tests | 23/23 Tests Passing (`tests/test_core.py`) | **VERIFIED** |
+| **Test Suite** | PyTest Core & Parity Tests | 26/26 Tests Passing (`tests/test_core.py`, `tests/test_parity_regression.py`) | **VERIFIED** |
 | **UI Tests** | Streamlit App Compilation | 14/14 Pages Compiling with Zero Errors | **VERIFIED** |
 | **Parity** | Local vs Hosted Inference | Uniform mathematical decision rule applied | **VERIFIED** |
 | **Biometric Privacy**| GDPR Article 9 Governance | Zero raw facial images or private identities stored | **VERIFIED** |
@@ -79,7 +79,7 @@ python -m venv .venv
 pip install -r requirements.txt
 
 # Run the full test suite
-pytest tests/test_core.py -v
+pytest tests/test_core.py tests/test_parity_regression.py -v
 
 # Launch the Streamlit dashboard locally
 streamlit run app/main.py

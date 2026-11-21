@@ -139,13 +139,13 @@ with st.sidebar:
 
     st.markdown('---')
     st.markdown('### Quick Samples')
-    st.caption('Load pre-packaged dataset samples for instant demonstration:')
+    st.caption('Load benchmark demonstration samples (100% synthetic/procedural, zero biometric exposure):')
     sample_choice = st.selectbox(
         'Load pre-packaged sample',
         [
             'None (Upload your own)',
-            'Sample A: Genuine candidate (MONOT Gate_10)',
-            'Sample B: Morphed candidate (MONOT Morphed)'
+            'Sample A: Synthetic Genuine Demonstration',
+            'Sample B: Synthetic Morphed Demonstration'
         ]
     )
 
@@ -201,18 +201,14 @@ with tab_single:
         target_source = uploaded_file
         source_name = uploaded_file.name
         source_bytes = uploaded_file.getvalue()
-    elif sample_choice == 'Sample A: Genuine candidate (MONOT Gate_10)':
-        sample_path = ROOT / 'MONOT/Gate_10/S457681878-GF-A95-EEA-T14-S1-LH-C1-I0017-F00-0.png'
-        if not sample_path.exists():
-            sample_path = ROOT / 'MONOT/Gate_10/S113923411-GF-A35-EEA-T14-S1-LH-C1-I0048-F00-0.png'
+    elif sample_choice == 'Sample A: Synthetic Genuine Demonstration':
+        sample_path = ROOT / 'app/assets/demo_samples/sample_a_synthetic_genuine.png'
         if sample_path.exists():
             target_source = sample_path
             source_name = sample_path.name
             source_bytes = sample_path.read_bytes()
-    elif sample_choice == 'Sample B: Morphed candidate (MONOT Morphed)':
-        sample_path = ROOT / 'MONOT/Morphed/M_S115293589-GF-A67-EME-T01-S1-LH-C1-I0030-F00_S368730932-GF-A97-EME-T14-S1-LH-C1-I0020-F00_C01_B30_W30_PA01_PM00_F00.png'
-        if not sample_path.exists():
-            sample_path = ROOT / 'MONOT/Morphed/M_S113923411-GF-A35-EEA-T14-S1-LH-C1-I0048-F00_S198149424-GF-A51-EEA-T13-S1-LH-C1-I0055-F00_C01_B30_W30_PA01_PM00_F00.png'
+    elif sample_choice == 'Sample B: Synthetic Morphed Demonstration':
+        sample_path = ROOT / 'app/assets/demo_samples/sample_b_synthetic_morph.png'
         if sample_path.exists():
             target_source = sample_path
             source_name = sample_path.name
@@ -583,26 +579,22 @@ with tab_compare:
     with c_up1:
         st.markdown('**Image A (Original Candidate)**')
         comp_file_a = st.file_uploader('Upload Image A', type=['jpg', 'jpeg', 'png'], key='comp_a_file')
-        sample_btn_a = st.button('Load Sample A (Gate_10 Genuine)', key='btn_load_sample_a')
+        sample_btn_a = st.button('Load Sample A (Synthetic Genuine)', key='btn_load_sample_a')
     with c_up2:
         st.markdown('**Image B (Morphed Candidate)**')
         comp_file_b = st.file_uploader('Upload Image B', type=['jpg', 'jpeg', 'png'], key='comp_b_file')
-        sample_btn_b = st.button('Load Sample B (MONOT Morphed)', key='btn_load_sample_b')
+        sample_btn_b = st.button('Load Sample B (Synthetic Morphed)', key='btn_load_sample_b')
 
     source_a = comp_file_a
     source_b = comp_file_b
 
-    if sample_btn_a or (sample_choice == 'Sample A: Genuine candidate (MONOT Gate_10)' and not comp_file_a):
-        sample_a_path = ROOT / 'MONOT/Gate_10/S457681878-GF-A95-EEA-T14-S1-LH-C1-I0017-F00-0.png'
-        if not sample_a_path.exists():
-            sample_a_path = ROOT / 'MONOT/Gate_10/S113923411-GF-A35-EEA-T14-S1-LH-C1-I0048-F00-0.png'
+    if sample_btn_a or (sample_choice == 'Sample A: Synthetic Genuine Demonstration' and not comp_file_a):
+        sample_a_path = ROOT / 'app/assets/demo_samples/sample_a_synthetic_genuine.png'
         if sample_a_path.exists():
             source_a = sample_a_path
 
-    if sample_btn_b or (sample_choice == 'Sample B: Morphed candidate (MONOT Morphed)' and not comp_file_b):
-        sample_b_path = ROOT / 'MONOT/Morphed/M_S115293589-GF-A67-EME-T01-S1-LH-C1-I0030-F00_S368730932-GF-A97-EME-T14-S1-LH-C1-I0020-F00_C01_B30_W30_PA01_PM00_F00.png'
-        if not sample_b_path.exists():
-            sample_b_path = ROOT / 'MONOT/Morphed/M_S113923411-GF-A35-EEA-T14-S1-LH-C1-I0048-F00_S198149424-GF-A51-EEA-T13-S1-LH-C1-I0055-F00_C01_B30_W30_PA01_PM00_F00.png'
+    if sample_btn_b or (sample_choice == 'Sample B: Synthetic Morphed Demonstration' and not comp_file_b):
+        sample_b_path = ROOT / 'app/assets/demo_samples/sample_b_synthetic_morph.png'
         if sample_b_path.exists():
             source_b = sample_b_path
 

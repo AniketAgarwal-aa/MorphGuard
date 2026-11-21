@@ -30,10 +30,10 @@ Follow these concrete steps to test the application:
 
 ### Step 2: Test Single-Image Morph Detection
 1. Click **Face Morph Analysis** (`1_Face_Morph_Analysis.py`) in the sidebar.
-2. In the **Single Image Analysis** tab, upload any standard portrait photograph (`.jpg` or `.png`).
+2. In the **Single Image Analysis** tab, upload any standard portrait photograph (`.jpg` or `.png`), or select **`Sample A: Synthetic Genuine Demonstration`** from the **Load pre-packaged sample** sidebar dropdown (100% procedurally synthesized, zero biometric exposure).
 3. **Select a Model:**
-   - In the model selection dropdown, select **`Combined SVM (RBF)`** (our top baseline, 96.49% test accuracy).
-   - Alternatively, select a deep neural network such as **`EfficientNet-B0`** (91.58% test accuracy).
+   - In the model selection dropdown, select **`combined_svm.joblib`** (our top baseline, 96.49% test accuracy).
+   - Alternatively, select a deep neural network such as **`efficientnet_b0.pt`** (91.58% test accuracy).
 4. **Inspect the Output:**
    - Face detection crop will appear (or full image if Haar detection passes).
    - The predicted **Morph Probability $P(\text{Morphed})$** will be displayed alongside the **Calibrated Decision Threshold $\tau^*$** (`0.0051` for Combined SVM).
@@ -42,7 +42,7 @@ Follow these concrete steps to test the application:
 
 ### Step 3: Test Two-Image Comparison
 1. Switch to the **Two-Image Comparison** tab on the same page.
-2. Upload two portrait images (Image A and Image B).
+2. Upload two portrait images (Image A and Image B), or click the **Load Sample A (Synthetic Genuine)** and **Load Sample B (Synthetic Morphed)** buttons.
 3. Verify that the comparative feature analysis displays:
    - Cosine similarity between feature embeddings.
    - Euclidean feature distance.

@@ -96,6 +96,8 @@
       "training_status": "trained",
       "validation_status": "evaluated",
       "approval_status": "approved_experimental_inference",
+      "calibrated_threshold": 0.5,
+      "default_threshold": 0.5,
       "metrics": {
         "evaluation_split": "test",
         "eval_samples": 285,
